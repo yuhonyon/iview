@@ -251,6 +251,10 @@
     fecha.parse = function (dateStr, format, i18nSettings) {
         var i18n = i18nSettings || fecha.i18n;
 
+        if (/^-{0,1}\d+$/.test(dateStr)) {
+            return new Date(Number(dateStr));
+        }
+
         if (typeof format !== 'string') {
             throw new Error('Invalid format in fecha.parse');
         }

@@ -42,7 +42,7 @@
     import { oneOf } from '../../utils/assist';
     import { formatDate, parseDate } from './util';
     import Emitter from '../../mixins/emitter';
-
+    let index=3;
     const prefixCls = 'ivu-date-picker';
 
     const DEFAULT_FORMATS = {
@@ -155,6 +155,12 @@
             format: {
                 type: String
             },
+            outputFormat:{
+                validator (value) {
+                    return oneOf(value, ['date', 'format', 'number']);
+                },
+                default:'date'
+            },
             readonly: {
                 type: Boolean,
                 default: false
@@ -217,7 +223,8 @@
                 internalValue: '',
                 disableClickOutSide: false,    // fixed when click a date,trigger clickoutside to close picker
                 disableCloseUnderTransfer: false,  // transfer 模式下，点击Drop也会触发关闭
-                currentValue: this.value
+                currentValue: this.value,
+                outputValue:this.value
             };
         },
         computed: {
@@ -299,6 +306,7 @@
                 this.visible = false;
             },
             handleInputChange (event) {
+
                 const oldValue = this.visualValue;
                 const value = event.target.value;
 
@@ -375,6 +383,7 @@
                     correctDate = parseDate(correctValue, format);
                 }
 
+
                 this.visualValue = correctValue;
                 event.target.value = correctValue;
                 this.internalValue = correctDate;
@@ -410,6 +419,7 @@
                 }
             },
             showPicker () {
+
                 if (!this.picker) {
                     let isConfirm = this.confirm;
                     const type = this.type;
@@ -509,23 +519,64 @@
             currentValue: {
                 immediate: true,
                 handler (val) {
+                    let value=val;
                     const type = this.type;
                     const parser = (
                         TYPE_VALUE_RESOLVER_MAP[type] ||
                         TYPE_VALUE_RESOLVER_MAP['default']
                     ).parser;
+                    const formatter = (
+                        TYPE_VALUE_RESOLVER_MAP[type] ||
+                        TYPE_VALUE_RESOLVER_MAP['default']
+                    ).formatter;
+
+                    const isRange=val&&type.match(/range$/)&&Array.isArray(val) && val.filter(Boolean).length === 2;
 
                     if (val && type === 'time' && !(val instanceof Date)) {
                         val = parser(val, this.format || DEFAULT_FORMATS[type]);
-                    } else if (val && type.match(/range$/) && Array.isArray(val) && val.filter(Boolean).length === 2 && !(val[0] instanceof Date) && !(val[1] instanceof Date)) {
+                    } else if (isRange && !(val[0] instanceof Date) && !(val[1] instanceof Date)) {
                         val = val.join(RANGE_SEPARATOR);
                         val = parser(val, this.format || DEFAULT_FORMATS[type]);
                     } else if (typeof val === 'string' && type.indexOf('time') !== 0 ){
                         val = parser(val, this.format || DEFAULT_FORMATS[type]) || val;
                     }
-
                     this.internalValue = val;
-                    this.$emit('input', val);
+
+
+
+                    if(!value||this.outputFormat==='date'){
+                      this.outputValue=val
+                    }else if(this.outputFormat==='number'){
+                      if(isRange&&typeof value[0]!=='number'&&typeof value[1]!=='number'){
+                        this.outputValue=[Date.parse(value[0]),Date.parse(value[1])]
+                      }else if(!/range$/.test(this.type)&&typeof value!=='number'){
+                        this.outputValue=Date.parse(value)
+                      }else{
+                        this.outputValue=value;
+                      }
+
+                    }else if(this.outputFormat==='format'){
+                      if(isRange&&typeof value[0]!=='string'&&typeof value[1]!=='string'){
+                        this.outputValue=this.visualValue.split(RANGE_SEPARATOR);
+                      }else if(!/range$/.test(this.type)&&typeof value!=='string'){
+                        this.outputValue=this.visualValue
+                      }else{
+                        this.outputValue=value;
+                      }
+                    }else{
+                      this.outputValue=value;
+                    }
+
+
+
+
+
+                    if(index>-100){
+                      index--;
+                        console.log(index)
+                        this.$emit('input',this.outputValue);
+                      return
+                    }
                 }
             },
             open (val) {

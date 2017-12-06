@@ -1,4 +1,4 @@
-<!--<template>-->
+<!-- <template>-->
     <!--<div>-->
         <!--{{ value1 }}-->
         <!--<Date-picker v-model="value1" type="datetimerange" placeholder="选择日期" style="width: 200px" @on-change="hc"></Date-picker>-->
@@ -184,7 +184,7 @@
             <!--}-->
         <!--}-->
     <!--}-->
-<!--</script>-->
+<!--</script> -->
 
 
 
@@ -198,12 +198,12 @@
     export default {
         data () {
             return {
-                value: []
+                value: ''
             }
         },
         methods: {
             handleChange (v) {
-                console.log(v);
+              //  console.log(v);
             }
         }
     }
