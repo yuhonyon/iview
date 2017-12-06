@@ -178,12 +178,22 @@
                 :loading="loading2">
             <Option v-for="(option, index) in options2" :value="option.value" :key="index">{{option.label}}</Option>
         </Select>
+        <Select v-model="m2" @on-change="aaa">
+        
+          <Option v-for="i in bbb" :value="i">{{i}}</Option>
+        </Select>
     </div>
 </template>
 <script>
     export default {
+        mounted() {
+          //do something after mounting vue instance
+
+        },
         data () {
             return {
+              m2:'',
+              bbb:[1,2,3,4,5],
                 model13: '',
                 loading1: false,
                 options1: [],
@@ -194,6 +204,9 @@
             }
         },
         methods: {
+          aaa(a){
+            //alert(9)
+          },
             remoteMethod2 (query) {
                 if (query !== '') {
                     this.loading2 = true;

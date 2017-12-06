@@ -192,7 +192,7 @@
                 let status = false;
 
                 if ((typeof this.model) === 'string') {
-                    if (this.model === '') {
+                    if (this.model === ''&&!this.selectedSingle) {
                         status = true;
                     }
                 } else if (Array.isArray(this.model)) {
@@ -318,7 +318,6 @@
             },
             updateSingleSelected (init = false, slot = false) {
                 const type = typeof this.model;
-
                 if (type === 'string' || type === 'number') {
                     let findModel = false;
 
