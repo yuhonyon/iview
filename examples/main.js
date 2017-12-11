@@ -103,7 +103,13 @@ const router = new VueRouter({
         },
         {
             path: '/tabs',
-            component: require('./routers/tabs.vue')
+            component: require('./routers/tabs.vue'),
+            children:[
+                {path: 'form',
+                    component: require('./routers/form.vue'),},
+                {path: 'button',
+                    component: require('./routers/menu.vue'),}
+            ]
         },
         {
             path: '/tooltip',

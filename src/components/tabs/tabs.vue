@@ -8,7 +8,7 @@
                     <span :class="[prefixCls + '-nav-next', scrollable ? '' : prefixCls + '-nav-scroll-disabled']" @click="scrollNext"><Icon type="chevron-right"></Icon></span>
                     <div ref="navScroll" :class="[prefixCls + '-nav-scroll']">
                         <div ref="nav" :class="[prefixCls + '-nav']" class="nav-text"  :style="navStyle">
-                            <div :class="barClasses" :style="barStyle"></div>
+                            <div ref="bar" :class="barClasses" :style="barStyle"></div>
                             <div :class="tabCls(item)" v-for="(item, index) in navList" @click="handleChange(index)">
                                 <Icon v-if="item.icon !== ''" :type="item.icon"></Icon>
                                 <Render v-if="item.labelType === 'function'" :render="item.label"></Render>
@@ -20,7 +20,12 @@
                 </div>
             </div>
         </div>
-        <div :class="contentClasses" :style="contentStyle"><slot></slot></div>
+        <div :class="contentClasses" :style="contentStyle"><slot v-show="router"></slot></div>
+        <div  v-if="router" :class="contentClasses">
+          <transition :name="transitionName" :duration="500">
+　　　　　　<router-view class='child-view'></router-view>
+        　　　　</transition>
+        </div>
     </div>
 </template>
 <script>
@@ -56,6 +61,10 @@
                 type: Boolean,
                 default: true
             },
+            router: {
+                type: Boolean,
+                default: true
+            },
             closable: {
                 type: Boolean,
                 default: false
@@ -64,11 +73,14 @@
         data () {
             return {
                 prefixCls: prefixCls,
+                transitionName: 'slide-right',
                 navList: [],
                 barWidth: 0,
                 barOffset: 0,
+                barFirstAnimate:true,
                 activeKey: this.value,
                 showSlot: false,
+                oldIndex:0,
                 navStyle: {
                     transform: ''
                 },
@@ -103,6 +115,9 @@
                 ];
             },
             contentStyle () {
+                if(this.router){
+                  return {display:'none'};
+                }
                 const x = this.navList.findIndex((nav) => nav.name === this.activeKey);
                 const p = x === 0 ? '0%' : `-${x}00%`;
 
@@ -115,6 +130,7 @@
                 return style;
             },
             barStyle () {
+
                 let style = {
                     display: 'none',
                     width: `${this.barWidth}px`
@@ -123,8 +139,13 @@
                 if (this.animated) {
                     style.transform = `translate3d(${this.barOffset}px, 0px, 0px)`;
                 } else {
-                    style.left = `${this.barOffset}px`;
+                    style.left = `${this.barOffset}px;`;
                 }
+                if(style.width!=='0px'&&this.barFirstAnimate){
+                  style.transition='none';
+                  this.barFirstAnimate=false;
+                }
+
 
                 return style;
             }
@@ -159,7 +180,6 @@
                     const prevTabs = this.$refs.nav.querySelectorAll(`.${prefixCls}-tab`);
                     const tab = prevTabs[index];
                     this.barWidth = tab ? parseFloat(tab.offsetWidth) : 0;
-
                     if (index > 0) {
                         let offset = 0;
                         const gutter = this.size === 'small' ? 0 : 16;
@@ -188,9 +208,15 @@
                 ];
             },
             handleChange (index) {
+
                 const nav = this.navList[index];
                 if (nav.disabled) return;
+                this.transitionName=this.oldIndex>index?'slide-right':'slide-left';
                 this.activeKey = nav.name;
+                this.oldIndex=index;
+                if(this.router){
+                  this.$router.push({path:this.activeKey})
+                }
                 this.$emit('input', nav.name);
                 this.$emit('on-click', nav.name);
             },
@@ -335,7 +361,12 @@
                 });
             }
         },
+
         mounted () {
+            if(this.router){
+              this.activeKey=this.$route.path;
+              this.$emit('input', this.activeKey);
+            }
             this.showSlot = this.$slots.extra !== undefined;
             this.observer = elementResizeDetectorMaker();
             this.observer.listenTo(this.$refs.navWrap, this.handleResize);
@@ -351,6 +382,8 @@
 
                 this.mutationObserver.observe(hiddenParentNode, { attributes: true, childList: true, characterData: true, attributeFilter: ['style'] });
             }
+
+
         },
         beforeDestroy() {
             this.observer.removeListener(this.$refs.navWrap, this.handleResize);
@@ -358,3 +391,83 @@
         }
     };
 </script>
+
+<style>
+.ivu-tabs{
+  overflow: visible;
+}
+.child-view {
+ position: absolute;
+ width: 100%;
+ height: 100%;
+ transition: none;
+}
+.slide-right-enter-active
+{
+ animation: fadeInLeft .5s both;
+}
+.slide-left-leave-active {
+  animation:fadeOutLeft .5s both;
+}
+
+.slide-left-enter-active {
+ animation: fadeInRight .5s both;
+}
+.slide-right-leave-active {
+ animation: fadeOutRight .5s both;
+}
+
+
+
+@-webkit-keyframes fadeInLeft{
+from {
+	opacity: 0;
+	-webkit-transform: translate3d(-100%, 0, 0);
+	transform: translate3d(-100%, 0, 0);
+}
+to {
+	opacity: 1;
+	-webkit-transform: none;
+	transform: none;
+}
+}
+@-webkit-keyframes fadeInRight{
+from {
+	opacity: 0;
+	-webkit-transform: translate3d(100%, 0, 0);
+	transform: translate3d(100%, 0, 0);
+}
+to {
+	opacity: 1;
+	-webkit-transform: none;
+	transform: none;
+}
+}
+@-webkit-keyframes fadeOutLeft{
+to {
+	opacity: 0;
+	-webkit-transform: translate3d(100%, 0, 0);
+	transform: translate3d(100%, 0, 0);
+}
+from {
+	opacity: 1;
+	-webkit-transform: none;
+	transform: none;
+}
+}
+@-webkit-keyframes fadeOutRight{
+to {
+	opacity: 0;
+	-webkit-transform: translate3d(-100%, 0, 0);
+	transform: translate3d(-100%, 0, 0);
+}
+from {
+	opacity: 1;
+	-webkit-transform: none;
+	transform: none;
+}
+}
+
+
+
+</style>

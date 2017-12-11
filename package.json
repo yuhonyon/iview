@@ -1,9 +1,8 @@
 {
-  "name": "iview",
-  "version": "2.7.4",
+  "name": "iviewplus",
+  "version": "1.0.1",
   "title": "iView",
-  "description": "A high quality  UI components Library with Vue.js",
-  "homepage": "http://www.iviewui.com",
+  "description": "iview分支",
   "keywords": [
     "iview",
     "vue",
@@ -18,6 +17,9 @@
     "dist",
     "src"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "dev": "webpack-dev-server --content-base test/ --open --inline --hot --compress --history-api-fallback --port 8081 --config build/webpack.dev.config.js",
     "dist:style": "gulp --gulpfile build/build-style.js",
@@ -27,17 +29,7 @@
     "dist": "npm run dist:style && npm run dist:dev && npm run dist:prod && npm run dist:locale",
     "lint": "eslint --fix --ext .js,.vue src",
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
-    "test": "npm run lint && npm run unit",
-    "prepublish": "npm run dist"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/iview/iview"
-  },
-  "author": "Aresn",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/iview/iview/issues"
+    "test": "npm run lint && npm run unit"
   },
   "dependencies": {
     "async-validator": "^1.8.1",

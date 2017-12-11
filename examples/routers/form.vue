@@ -373,7 +373,7 @@
                 },
                 ruleValidate: {
                     name: [
-                        { required: true, message: '姓名不能为空', trigger: 'change' }
+                        { type:'number',required: true, message: '姓名不能为空', trigger: 'change' }
                     ],
                     mail: [
                         { required: true, message: '邮箱不能为空', trigger: 'change' }

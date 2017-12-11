@@ -158,8 +158,9 @@
 <!--</script>-->
 
 <template>
-    <Tabs type="card">
-        <TabPane v-for="tab in tabs" :key="tab" :label="'标签' + tab">标签{{ tab }}</TabPane>
+    <Tabs   value="/tabs/button">
+        <TabPane  name="/tabs/form" :key="1" :label="'标签' + 1"></TabPane>
+        <TabPane  name="/tabs/button" :key="2" :label="'标签' + 2"></TabPane>
         <Button type="ghost" @click="handleTabsAdd" size="small" slot="extra">增加</Button>
     </Tabs>
 </template>
@@ -177,5 +178,3 @@
         }
     }
 </script>
-
-
