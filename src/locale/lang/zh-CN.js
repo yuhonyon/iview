@@ -9,11 +9,11 @@ const lang = {
             loading: '加载中'
         },
         table: {
-            noDataText: '暂无数据',
-            noFilteredDataText: '暂无筛选结果',
+            emptyText: '暂无数据',
             confirmFilter: '筛选',
             resetFilter: '重置',
-            clearFilter: '全部'
+            clearFilter: '全部',
+            sumText: '合计'
         },
         datepicker: {
             selectDate: '选择日期',

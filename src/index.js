@@ -38,7 +38,7 @@ import Slider from './components/slider';
 import Spin from './components/spin';
 import Steps from './components/steps';
 import Switch from './components/switch';
-import Table from './components/table';
+//import Table from './components/table';
 import Tabs from './components/tabs';
 import Tag from './components/tag';
 import Timeline from './components/timeline';
@@ -50,10 +50,12 @@ import Upload from './components/upload';
 import {Row, Col} from './components/grid';
 import {Select, Option, OptionGroup} from './components/select';
 import locale from './locale/index';
+import {Table, Column} from './components/table1';
 
 const components = {
     Affix,
     Alert,
+    Column,
     AutoComplete,
     Avatar,
     BackTop,

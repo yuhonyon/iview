@@ -21,10 +21,13 @@
             </div>
         </div>
         <div :class="contentClasses" :style="contentStyle"><slot v-show="router"></slot></div>
-        <div  v-if="router" :class="contentClasses">
+        <div  v-if="router" :class="[prefixCls + '-router']">
           <transition :name="transitionName" :duration="500">
-　　　　　　<router-view class='child-view'></router-view>
-        　　　　</transition>
+            <keep-alive v-if="alive">
+　　　　　　    <router-view class='ivu-tabs-view'></router-view>
+            </keep-alive>
+            <router-view v-else class='ivu-tabs-view'></router-view>
+        　</transition>
         </div>
     </div>
 </template>
@@ -63,7 +66,15 @@
             },
             router: {
                 type: Boolean,
-                default: true
+                default: false
+            },
+            alive: {
+                type: Boolean,
+                default: false
+            },
+            routeRoot: {
+                type: String,
+                default: ''
             },
             closable: {
                 type: Boolean,
@@ -215,7 +226,7 @@
                 this.activeKey = nav.name;
                 this.oldIndex=index;
                 if(this.router){
-                  this.$router.push({path:this.activeKey})
+                  this.$router.push({path:(this.routeRoot?(this.routeRoot+'/'):'')+this.activeKey})
                 }
                 this.$emit('input', nav.name);
                 this.$emit('on-click', nav.name);
@@ -364,7 +375,17 @@
 
         mounted () {
             if(this.router){
-              this.activeKey=this.$route.path;
+              if(this.routeRoot){
+                if(/^\/.*\/$/.test(this.routeRoot)){
+                  throw(`fix routeRoot '${this.routeRoot}' to '${this.routeRoot.replace(/\/$/,'')}'`)
+                }
+                for(let route of this.navList){
+                  if(/^\//.test(route.name)){
+                    throw(`fix route path '${route.name}' to '${route.name.replace(/^\//,'')}'`)
+                  }
+                }
+              }
+              this.activeKey=this.$route.path.replace(this.routeRoot,'');
               this.$emit('input', this.activeKey);
             }
             this.showSlot = this.$slots.extra !== undefined;
@@ -393,78 +414,68 @@
 </script>
 
 <style>
-.ivu-tabs{
-  overflow: visible;
+.ivu-tabs-router{
+  display: flex;
+  flex-wrap: nowrap;
 }
-.child-view {
- position: absolute;
+
+.ivu-tabs-view {
+flex-shrink:0;
  width: 100%;
  height: 100%;
  transition: none;
 }
 .slide-right-enter-active
 {
- animation: fadeInLeft .5s both;
+ animation: slideInLeft .5s both;
 }
 .slide-left-leave-active {
-  animation:fadeOutLeft .5s both;
+  animation:slideOutLeft .5s both;
 }
 
 .slide-left-enter-active {
- animation: fadeInRight .5s both;
+ animation: slideInRight .5s both;
 }
 .slide-right-leave-active {
- animation: fadeOutRight .5s both;
+ animation: slideOutRight .5s both;
 }
 
 
 
-@-webkit-keyframes fadeInLeft{
+@keyframes slideInLeft{
 from {
-	opacity: 0;
-	-webkit-transform: translate3d(-100%, 0, 0);
+	transform: translate3d(-200%, 0, 0);
+}
+to {
+	opacity: 1;
 	transform: translate3d(-100%, 0, 0);
 }
-to {
-	opacity: 1;
-	-webkit-transform: none;
-	transform: none;
 }
-}
-@-webkit-keyframes fadeInRight{
+@keyframes slideInRight{
 from {
-	opacity: 0;
-	-webkit-transform: translate3d(100%, 0, 0);
-	transform: translate3d(100%, 0, 0);
+	transform: translate3d(0%, 0, 0);
 }
 to {
 	opacity: 1;
-	-webkit-transform: none;
-	transform: none;
+	transform: translate3d(-100%, 0, 0);
 }
 }
-@-webkit-keyframes fadeOutLeft{
+@keyframes slideOutLeft{
 to {
-	opacity: 0;
-	-webkit-transform: translate3d(100%, 0, 0);
-	transform: translate3d(100%, 0, 0);
-}
-from {
-	opacity: 1;
-	-webkit-transform: none;
-	transform: none;
-}
-}
-@-webkit-keyframes fadeOutRight{
-to {
-	opacity: 0;
-	-webkit-transform: translate3d(-100%, 0, 0);
 	transform: translate3d(-100%, 0, 0);
 }
 from {
 	opacity: 1;
-	-webkit-transform: none;
-	transform: none;
+	transform: translate3d(0%, 0, 0);
+}
+}
+@keyframes slideOutRight{
+to {
+	transform: translate3d(100%, 0, 0);
+}
+from {
+	opacity: 1;
+	transform: translate3d(0%, 0, 0);
 }
 }
 

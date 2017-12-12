@@ -12,7 +12,8 @@
 <script>
     import AsyncValidator from 'async-validator';
     import Emitter from '../../mixins/emitter';
-
+    import aaa from '../../../node_modules/async-validator/lib/rule'
+    console.log(aaa)
     const prefixCls = 'ivu-form-item';
 
     function getPropByPath(obj, path) {
