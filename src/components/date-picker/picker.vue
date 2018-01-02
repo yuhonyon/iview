@@ -573,7 +573,7 @@
 
                     if(index>-1000){
                       index--;
-                        //console.log(index)
+                        console.log(index)
                         this.$emit('input',this.outputValue);
                       return
                     }

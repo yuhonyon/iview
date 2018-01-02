@@ -179,8 +179,8 @@
             <Option v-for="(option, index) in options2" :value="option.value" :key="index">{{option.label}}</Option>
         </Select>
         <Select v-model="m2" @on-change="aaa">
-        
-          <Option v-for="i in bbb" :value="i">{{i}}</Option>
+
+          <Option v-for="i in bbb" :key="i" :value="i">{{i}}</Option>
         </Select>
     </div>
 </template>

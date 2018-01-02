@@ -20,6 +20,7 @@
                 </div>
             </div>
         </div>
+        <slot v-if="$slots.content" name="content"></slot>
         <div :class="contentClasses" :style="contentStyle"><slot v-show="router"></slot></div>
         <div  v-if="router" :class="[prefixCls + '-router']">
           <transition :name="transitionName" :duration="500">
@@ -412,73 +413,3 @@
         }
     };
 </script>
-
-<style>
-.ivu-tabs-router{
-  display: flex;
-  flex-wrap: nowrap;
-}
-
-.ivu-tabs-view {
-flex-shrink:0;
- width: 100%;
- height: 100%;
- transition: none;
-}
-.slide-right-enter-active
-{
- animation: slideInLeft .5s both;
-}
-.slide-left-leave-active {
-  animation:slideOutLeft .5s both;
-}
-
-.slide-left-enter-active {
- animation: slideInRight .5s both;
-}
-.slide-right-leave-active {
- animation: slideOutRight .5s both;
-}
-
-
-
-@keyframes slideInLeft{
-from {
-	transform: translate3d(-200%, 0, 0);
-}
-to {
-	opacity: 1;
-	transform: translate3d(-100%, 0, 0);
-}
-}
-@keyframes slideInRight{
-from {
-	transform: translate3d(0%, 0, 0);
-}
-to {
-	opacity: 1;
-	transform: translate3d(-100%, 0, 0);
-}
-}
-@keyframes slideOutLeft{
-to {
-	transform: translate3d(-100%, 0, 0);
-}
-from {
-	opacity: 1;
-	transform: translate3d(0%, 0, 0);
-}
-}
-@keyframes slideOutRight{
-to {
-	transform: translate3d(100%, 0, 0);
-}
-from {
-	opacity: 1;
-	transform: translate3d(0%, 0, 0);
-}
-}
-
-
-
-</style>
