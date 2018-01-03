@@ -1,7 +1,7 @@
 <template>
     <div>
-        <Menu mode="horizontal" :theme="theme1" active-name="1">
-            <Menu-item name="1">
+        <Menu mode="horizontal" :theme="theme1" active-name="1" router>
+            <Menu-item name="/tabs">
                 <Icon type="ios-paper"></Icon>
                 内容管理
             </Menu-item>

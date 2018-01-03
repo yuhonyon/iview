@@ -9,7 +9,8 @@
       'el-table--fluid-height': maxHeight,
       'el-table--enable-row-hover': !store.states.isComplex,
       'el-table--enable-row-transition': (store.states.data || []).length !== 0 && (store.states.data || []).length < 100
-    }, tableSize ? `el-table--${ tableSize }` : '']"
+    }, tableSize ? `el-table--${ tableSize }` : '',align ? `el-table--align-${align}`:'',
+    headerAlign ? `el-table--header-align-${headerAlign}`:'']"
     @mouseleave="handleMouseLeave($event)">
     <div class="hidden-columns" ref="hiddenColumns"><slot></slot></div>
     <div class="el-table__header-wrapper" ref="headerWrapper" v-if="showHeader">
@@ -172,6 +173,8 @@
     mixins: [Locale, Migrating],
 
     props: {
+      align: String,
+      headerAlign:String,
       data: {
         type: Array,
         default: function() {

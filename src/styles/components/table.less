@@ -1,6 +1,29 @@
 @table-prefix-cls: ~"@{css-prefix}table";
 @table-select-item-prefix-cls: ~"@{table-prefix-cls}-filter-select-item";
 
+.el-table--header-align{
+  &-center thead th{
+    text-align: center;
+  }
+  &-left thead th{
+    text-align: left;
+  }
+  &-right thead th{
+    text-align: right;
+  }
+}
+.el-table--align{
+  &-center td,&-center th{
+    text-align: center;
+  }
+  &-left td,&-left th{
+    text-align: left;
+  }
+  &-right td,&-right th{
+    text-align: right;
+  }
+}
+
 .@{table-prefix-cls} {
     &-wrapper{
         position: relative;

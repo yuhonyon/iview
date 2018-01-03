@@ -36,6 +36,10 @@
                 type: Boolean,
                 default: false
             },
+            router: {
+                type: Boolean,
+                default: false
+            },
             width: {
                 type: String,
                 default: '240px'
@@ -74,6 +78,7 @@
                 }
                 this.broadcast('Submenu', 'on-update-active-name', false);
                 this.broadcast('MenuItem', 'on-update-active-name', this.currentActiveName);
+
             },
             updateOpenKeys (name) {
                 const index = this.openNames.indexOf(name);
@@ -103,7 +108,19 @@
             this.$on('on-menu-item-select', (name) => {
                 this.currentActiveName = name;
                 this.$emit('on-select', name);
+                if(this.router){
+                  this.$router.push({
+                      path: name
+                  })
+                }
             });
+            if(this.router){
+              this.$watch('$router',function(val,old){
+                if(val.path!==old.path){
+                  this.currentActiveName =val.path
+                }
+              })
+            }
         },
         watch: {
             openNames () {

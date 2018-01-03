@@ -4,6 +4,8 @@
       :data="tableData6"
       :span-method="arraySpanMethod"
       border
+      align="center"
+      header-align="left"
       style="width: 100%">
       <Column
         prop="id"
