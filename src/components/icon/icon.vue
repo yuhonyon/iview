@@ -9,11 +9,15 @@
         props: {
             type: String,
             size: [Number, String],
-            color: String
+            color: String,
+            prefix:{
+              type:String,
+              default:prefixCls
+            }
         },
         computed: {
             classes () {
-                return `${prefixCls} ${prefixCls}-${this.type}`;
+                return `${prefix} ${prefix}-${this.type}`;
             },
             styles () {
                 let style = {};
