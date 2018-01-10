@@ -1,32 +1,35 @@
 <template>
     <div>
-        <Menu mode="horizontal" :theme="theme1" active-name="1" router>
-            <Menu-item name="/tabs">
+        <Menu :theme="theme1" active-name="1" collapse>
+            <Menu-item name="/tabs" tooltip="内容管理">
                 <Icon type="ios-paper"></Icon>
-                内容管理
+                <span>内容管理</span>
             </Menu-item>
             <Menu-item name="2">
                 <Icon type="ios-people"></Icon>
-                用户管理
+                <span>用户管理</span>
             </Menu-item>
-            <Submenu name="3">
+            <Submenu name="3" tooltip="统计分析">
                 <template slot="title">
                     <Icon type="stats-bars"></Icon>
-                    统计分析
+                    <span>统计分析</span>
                 </template>
-                <Menu-group title="使用">
-                    <Menu-item name="3-1">新增和启动</Menu-item>
-                    <Menu-item name="3-2">活跃分析</Menu-item>
-                    <Menu-item name="3-3">时段分析</Menu-item>
-                </Menu-group>
-                <Menu-group title="留存">
-                    <Menu-item name="3-4">用户留存</Menu-item>
-                    <Menu-item name="3-5">流失用户</Menu-item>
-                </Menu-group>
+                <Menu-item name="3-1">新增和启动</Menu-item>
+                <Menu-item name="3-2">活跃分析</Menu-item>
+                <Menu-item name="3-3">时段分析</Menu-item>
+            </Submenu>
+            <Submenu name="5" tooltip="统计分析">
+                <template slot="title">
+                    <Icon type="stats-bars"></Icon>
+                    <span>统计分析</span>
+                </template>
+                <Menu-item name="5-1">新增和启动</Menu-item>
+                <Menu-item name="5-2">活跃分析</Menu-item>
+                <Menu-item name="5-3">时段分析</Menu-item>
             </Submenu>
             <Menu-item name="4">
                 <Icon type="settings"></Icon>
-                综合设置
+                <span>综合设置</span>
             </Menu-item>
         </Menu>
         <br>

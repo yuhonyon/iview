@@ -17,7 +17,7 @@
         },
         computed: {
             classes () {
-                return `${prefix} ${prefix}-${this.type}`;
+                return `${this.prefix} ${this.prefix}-${this.type}`;
             },
             styles () {
                 let style = {};

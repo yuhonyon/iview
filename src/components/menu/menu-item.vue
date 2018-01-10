@@ -1,18 +1,27 @@
 <template>
-    <li :class="classes" @click.stop="handleClick"><slot></slot></li>
+    <li :class="classes" @click.stop="handleClick">
+      <Tooltip v-if="!!tooltip&&parent.collapse" transfer :content="tooltip" placement="right"><slot></slot></Tooltip>
+      <slot v-else></slot>
+    </li>
 </template>
 <script>
     import Emitter from '../../mixins/emitter';
+    import { findComponentUpward } from '../../utils/assist';
+    import Tooltip from '../tooltip/';
     const prefixCls = 'ivu-menu';
 
     export default {
         name: 'MenuItem',
         mixins: [ Emitter ],
+        components: {
+          Tooltip
+        },
         props: {
             name: {
                 type: [String, Number],
                 required: true
             },
+            tooltip:String,
             disabled: {
                 type: Boolean,
                 default: false
@@ -20,7 +29,8 @@
         },
         data () {
             return {
-                active: false
+                active: false,
+                parent: findComponentUpward(this, 'Menu')
             };
         },
         computed: {
@@ -30,7 +40,8 @@
                     {
                         [`${prefixCls}-item-active`]: this.active,
                         [`${prefixCls}-item-selected`]: this.active,
-                        [`${prefixCls}-item-disabled`]: this.disabled
+                        [`${prefixCls}-item-disabled`]: this.disabled,
+                        [`${prefixCls}-item-tooltip`]:!!this.tooltip&&this.parent.collapse
                     }
                 ];
             }

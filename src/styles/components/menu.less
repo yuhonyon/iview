@@ -45,6 +45,52 @@
             }
         }
     }
+    &-collapse{
+      width:50px!important;
+      >.ivu-menu-item{
+        &.ivu-menu-item-tooltip{
+          padding: 0;
+        }
+        >:not(:nth-child(1)){
+          display: none;
+        }
+        >.ivu-tooltip{
+              width: 100%;
+              padding: 14px 24px;
+        }
+        .ivu-tooltip-rel>:not(:nth-child(1)){
+          display: none;
+        }
+      }
+
+
+      >.ivu-menu-submenu{
+        position: relative;
+        &.ivu-menu-submenu-tooltip>.ivu-menu-submenu-title{
+          padding: 0;
+        }
+        >.ivu-menu-submenu-title{
+          >:not(:nth-child(1)){
+            display: none;
+          }
+          >.ivu-tooltip{
+                width: 100%;
+                padding: 14px 24px;
+          }
+          .ivu-tooltip-rel>:not(:nth-child(1)){
+            display: none;
+          }
+        }
+        >.ivu-menu{
+          position: absolute;
+          left: 100%;
+          top:0;
+          width: 240px;
+          border: 1px solid #ddd;
+        }
+
+      }
+    }
 
     &-light{
         background: #fff;

@@ -1,7 +1,8 @@
 <template>
     <li :class="classes" @mouseenter="handleMouseenter" @mouseleave="handleMouseleave">
         <div :class="[prefixCls + '-submenu-title']" ref="reference" @click="handleClick">
-            <slot name="title"></slot>
+            <Tooltip v-if="!!tooltip&&parent.collapse" :disabled="opened" transfer :content="tooltip" placement="right"><slot name="title"></slot></Tooltip>
+            <slot v-else name="title"></slot>
             <Icon type="ios-arrow-down" :class="[prefixCls + '-submenu-title-icon']"></Icon>
         </div>
         <collapse-transition v-if="mode === 'vertical'">
@@ -20,6 +21,7 @@
 <script>
     import Drop from '../select/dropdown.vue';
     import Icon from '../icon/icon.vue';
+    import Tooltip from '../tooltip/';
     import CollapseTransition from '../base/collapse-transition';
     import { getStyle, findComponentUpward } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
@@ -35,6 +37,7 @@
                 type: [String, Number],
                 required: true
             },
+            tooltip:String,
             disabled: {
                 type: Boolean,
                 default: false
@@ -56,7 +59,8 @@
                     {
                         [`${prefixCls}-item-active`]: this.active,
                         [`${prefixCls}-opened`]: this.opened,
-                        [`${prefixCls}-submenu-disabled`]: this.disabled
+                        [`${prefixCls}-submenu-disabled`]: this.disabled,
+                        [`${prefixCls}-submenu-tooltip`]:!!this.tooltip&&this.parent.collapse
                     }
                 ];
             },
@@ -64,7 +68,7 @@
                 return this.parent.mode;
             },
             accordion () {
-                return this.parent.accordion;
+                return this.parent.accordion||this.parent.collapse;
             },
             dropStyle () {
                 let style = {};

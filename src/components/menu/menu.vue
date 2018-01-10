@@ -32,6 +32,10 @@
                     return [];
                 }
             },
+            collapse:{
+              type: Boolean,
+              default: false
+            },
             accordion: {
                 type: Boolean,
                 default: false
@@ -57,7 +61,11 @@
 
                 return [
                     `${prefixCls}`,
+
                     `${prefixCls}-${theme}`,
+                    {
+                      [`${prefixCls}-collapse`]:this.collapse
+                    },
                     {
                         [`${prefixCls}-${this.mode}`]: this.mode
                     }
@@ -86,7 +94,7 @@
                     this.openNames.splice(index, 1);
                 } else {
                     this.openNames.push(name);
-                    if (this.accordion) {
+                    if (this.accordion||this.collapse) {
                         this.openNames.splice(0, this.openNames.length);
                         this.openNames.push(name);
                     }
@@ -97,7 +105,9 @@
 
                 if (items.length) {
                     items.forEach(item => {
-                        if (this.openNames.indexOf(item.name) > -1) item.opened = true;
+                        if (this.openNames.indexOf(item.name) > -1) {item.opened = true}else{
+                          item.opened = false;
+                        };
                     });
                 }
             }
@@ -112,6 +122,11 @@
                   this.$router.push({
                       path: name
                   })
+                }
+                if(this.collapse){
+                  console.log(this.openNames)
+                  this.openNames.splice(0, this.openNames.length);
+                  this.updateOpened();
                 }
             });
             if(this.router){

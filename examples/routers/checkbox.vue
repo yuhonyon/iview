@@ -1,5 +1,6 @@
 <template>
     <div>
+      <Icon type="ionic"></Icon>
         <Checkbox
             :indeterminate="true"
             :value="false"
