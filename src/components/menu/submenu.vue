@@ -1,7 +1,7 @@
 <template>
     <li :class="classes" @mouseenter="handleMouseenter" @mouseleave="handleMouseleave">
         <div :class="[prefixCls + '-submenu-title']" ref="reference" @click="handleClick">
-            <Tooltip v-if="!!tooltip&&parent.collapse" :disabled="opened" transfer :content="tooltip" placement="right"><slot name="title"></slot></Tooltip>
+            <Tooltip v-if="!!tooltip&&parent.collapse" :popper-class="popperClass"  :disabled="opened" transfer :content="tooltip" placement="right"><slot name="title"></slot></Tooltip>
             <slot v-else name="title"></slot>
             <Icon type="ios-arrow-down" :class="[prefixCls + '-submenu-title-icon']"></Icon>
         </div>
@@ -53,6 +53,9 @@
             };
         },
         computed: {
+          popperClass(){
+            return `${prefixCls}-tooltip`
+          },
             classes () {
                 return [
                     `${prefixCls}-submenu`,

@@ -5,7 +5,7 @@
         </div>
         <transition name="fade">
             <div
-                :class="[prefixCls + '-popper']"
+                :class="[prefixCls + '-popper',popperClass]"
                 ref="popper"
                 v-show="!disabled && (visible || always)"
                 @mouseenter="handleShowPopper"
@@ -42,6 +42,7 @@
                 type: [String, Number],
                 default: ''
             },
+            popperClass:String,
             delay: {
                 type: Number,
                 default: 100
@@ -73,6 +74,7 @@
                 this.updatePopper();
             }
         },
+
         methods: {
             handleShowPopper() {
                 if (this.timeout) clearTimeout(this.timeout);
@@ -92,6 +94,7 @@
             }
         },
         mounted () {
+          console.log(this.popperClass,1111)
             if (this.always) {
                 this.updatePopper();
             }

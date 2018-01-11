@@ -51,10 +51,12 @@ import {Row, Col} from './components/grid';
 import {Select, Option, OptionGroup} from './components/select';
 import locale from './locale/index';
 import {Table, Column} from './components/table1';
+import Grid from './components/table';
 
 const components = {
     Affix,
     Alert,
+    Grid,
     Column,
     AutoComplete,
     Avatar,

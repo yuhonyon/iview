@@ -1,6 +1,6 @@
 <template>
     <li :class="classes" @click.stop="handleClick">
-      <Tooltip v-if="!!tooltip&&parent.collapse" transfer :content="tooltip" placement="right"><slot></slot></Tooltip>
+      <Tooltip v-if="!!tooltip&&parent.collapse" :popper-class="popperClass" transfer :content="tooltip" placement="right"><slot></slot></Tooltip>
       <slot v-else></slot>
     </li>
 </template>
@@ -34,6 +34,9 @@
             };
         },
         computed: {
+            popperClass(){
+              return `${prefixCls}-tooltip`
+            },
             classes () {
                 return [
                     `${prefixCls}-item`,
