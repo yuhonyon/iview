@@ -24,6 +24,7 @@ module.exports = merge(webpackBaseConfig, {
         filename: '[name].js',
         chunkFilename: '[name].chunk.js'
     },
+    devtool: 'source-map',
     resolve: {
         alias: {
             iview: '../../src/index',
