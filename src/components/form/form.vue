@@ -62,6 +62,18 @@
                     field.resetField();
                 });
             },
+            resetValidate(prop){
+              if(prop){
+                const field = this.fields.filter(field => field.prop === prop)[0];
+                if (!field) { throw new Error('[iView warn]: must call resetValidate with valid prop string!'); }
+
+                field.resetValidate();
+                return;
+              }
+              this.fields.forEach(field => {
+                  field.resetValidate();
+              });
+            },
             validate(callback) {
                 return new Promise(resolve => {
                     let valid = true;
@@ -90,9 +102,9 @@
             }
         },
         watch: {
-            rules() {
-                this.validate();
-            }
+            // rules() {
+            //     this.validate();
+            // }
         },
         created () {
             this.$on('on-form-item-add', (field) => {

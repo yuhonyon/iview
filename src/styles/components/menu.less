@@ -56,7 +56,10 @@
     }
     &-collapse{
       width:50px!important;
-      >.ivu-menu-item{
+      >.ivu-menu-item-group>.ivu-menu-item-group-title{
+        display: none;
+      }
+      >.ivu-menu-item,>.ivu-menu-item-group>ul>.ivu-menu-item{
         &.ivu-menu-item-tooltip{
           padding: 0;
         }

@@ -12,8 +12,9 @@
 <script>
     import AsyncValidator from 'async-validator';
     import Emitter from '../../mixins/emitter';
+    import extend from '../../utils/extend';
     import aaa from '../../../node_modules/async-validator/lib/rule'
-    console.log(aaa)
+    //console.log(aaa)
     const prefixCls = 'ivu-form-item';
 
     function getPropByPath(obj, path) {
@@ -91,6 +92,27 @@
             },
             validateStatus (val) {
                 this.validateState = val;
+            },
+            "form.rules":{
+              handler: function (val, oldVal) {
+                if(!this.prop) return;
+                let rules = this.getRules();
+                if (rules.length) {
+                    rules.every(rule => {
+                        if(typeof rule.required==='function'){
+                          rule.required=rule.required.call(this.form.$parent)
+                        }
+                        if (rule.required) {
+                            this.isRequired = true;
+                            return false;
+                        }else if(rule.required===false){
+                            this.isRequired = false;
+                            return false;
+                        }
+                    });
+                }
+              },
+              deep: true
             }
         },
         computed: {
@@ -148,8 +170,7 @@
                 const selfRules = this.rules;
 
                 formRules = formRules ? formRules[this.prop] : [];
-
-                return [].concat(selfRules || formRules || []);
+                return extend(true,[],selfRules || formRules || []);
             },
             getFilteredRule (trigger) {
                 const rules = this.getRules();
@@ -165,6 +186,19 @@
 
                 this.validateState = 'validating';
 
+                for(let rule of rules){
+                  if(typeof rule.required==='function'){
+                    rule.required=rule.required.call(this.form.$parent);
+                    if(rule.required){
+                      this.isRequired = true;
+                    }else{
+                      this.isRequired=false;
+                    }
+                  }
+                }
+
+
+
                 let descriptor = {};
                 descriptor[this.prop] = rules;
 
@@ -173,6 +207,8 @@
 
                 model[this.prop] = this.fieldValue;
 
+
+
                 validator.validate(model, { firstFields: true }, errors => {
                     this.validateState = !errors ? 'success' : 'error';
                     this.validateMessage = errors ? errors[0].message : '';
@@ -180,6 +216,26 @@
                     callback(this.validateMessage);
                 });
                 this.validateDisabled = false;
+            },
+            resetValidate () {
+                this.validateState = '';
+                this.validateMessage = '';
+                let rules = this.getRules();
+                if (rules.length) {
+                    rules.every(rule => {
+                        if(typeof rule.required==='function'){
+                          rule.required=rule.required.call(this.form.$parent)
+                        }
+                        if (rule.required) {
+                            this.isRequired = true;
+                            return false;
+                        }else if(rule.required===false){
+                            this.isRequired = false;
+                            return false;
+                        }
+                    });
+                }
+
             },
             resetField () {
                 this.validateState = '';
@@ -233,6 +289,9 @@
 
                 if (rules.length) {
                     rules.every(rule => {
+                        if(typeof rule.required==='function'){
+                          rule.required=rule.required.call(this.form.$parent)
+                        }
                         if (rule.required) {
                             this.isRequired = true;
                             return false;
