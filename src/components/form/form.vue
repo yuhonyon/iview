@@ -57,17 +57,42 @@
             }
         },
         methods: {
-            resetFields() {
+            resetFields(prop) {
+              if(prop){
+                if(typeof prop ==='string'){
+                  prop=[prop];
+                }
+                const field = this.fields.filter(field =>{
+
+                  if(prop.includes(field.prop)){
+
+                    field.resetField();
+                    return true;
+                  }
+                  return false;
+                })[0];
+                if (!field) { throw new Error('[iView warn]: must call resetField with valid prop string!'); }
+                return;
+              }
                 this.fields.forEach(field => {
                     field.resetField();
                 });
             },
             resetValidate(prop){
               if(prop){
-                const field = this.fields.filter(field => field.prop === prop)[0];
+                if(typeof prop ==='string'){
+                  prop=[prop];
+                }
+                const field = this.fields.filter(field =>{
+                  if(prop.includes(field.prop)){
+                    field.resetValidate();
+                    return true;
+                  }
+                  return false;
+                })[0];
                 if (!field) { throw new Error('[iView warn]: must call resetValidate with valid prop string!'); }
 
-                field.resetValidate();
+
                 return;
               }
               this.fields.forEach(field => {
@@ -95,10 +120,9 @@
                 });
             },
             validateField(prop, cb) {
-                const field = this.fields.filter(field => field.prop === prop)[0];
-                if (!field) { throw new Error('[iView warn]: must call validateField with valid prop string!'); }
-
-                field.validate('', cb);
+              const field = this.fields.filter(field => field.prop === prop)[0];
+              if (!field) { throw new Error('[iView warn]: must call validateField with valid prop string!'); }
+              field.validate('', cb);
             }
         },
         watch: {

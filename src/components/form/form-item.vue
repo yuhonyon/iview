@@ -100,7 +100,7 @@
                 if (rules.length) {
                     rules.every(rule => {
                         if(typeof rule.required==='function'){
-                          rule.required=rule.required.call(this.form.$parent)
+                          rule.required=rule.required()
                         }
                         if (rule.required) {
                             this.isRequired = true;
@@ -188,7 +188,7 @@
 
                 for(let rule of rules){
                   if(typeof rule.required==='function'){
-                    rule.required=rule.required.call(this.form.$parent);
+                    rule.required=rule.required();
                     if(rule.required){
                       this.isRequired = true;
                     }else{
@@ -224,7 +224,7 @@
                 if (rules.length) {
                     rules.every(rule => {
                         if(typeof rule.required==='function'){
-                          rule.required=rule.required.call(this.form.$parent)
+                          rule.required=rule.required()
                         }
                         if (rule.required) {
                             this.isRequired = true;
@@ -238,8 +238,8 @@
 
             },
             resetField () {
-                this.validateState = '';
-                this.validateMessage = '';
+                // this.validateState = '';
+                // this.validateMessage = '';
 
                 let model = this.form.model;
                 let value = this.fieldValue;
@@ -264,6 +264,7 @@
                     this.validateDisabled = true;
                     prop.o[prop.k] = this.initialValue;
                 }
+                this.resetValidate()
             },
             onFieldBlur() {
                 this.validate('blur');
@@ -290,7 +291,7 @@
                 if (rules.length) {
                     rules.every(rule => {
                         if(typeof rule.required==='function'){
-                          rule.required=rule.required.call(this.form.$parent)
+                          rule.required=rule.required()
                         }
                         if (rule.required) {
                             this.isRequired = true;

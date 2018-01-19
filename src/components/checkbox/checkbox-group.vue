@@ -18,6 +18,10 @@
                     return [];
                 }
             },
+            disabled: {
+                type: Boolean,
+                default: false
+            },
             size: {
                 validator (value) {
                     return oneOf(value, ['small', 'large', 'default']);
@@ -35,7 +39,8 @@
                 return [
                     `${prefixCls}`,
                     {
-                        [`ivu-checkbox-${this.size}`]: !!this.size
+                        [`ivu-checkbox-${this.size}`]: !!this.size,
+                        [`${prefixCls}-disabled`]: this.disabled,
                     }
                 ];
             }
