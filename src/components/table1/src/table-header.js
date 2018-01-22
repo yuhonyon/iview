@@ -1,6 +1,7 @@
 import { hasClass, addClass, removeClass } from '../../../utils/assist';
 import Checkbox from '../../checkbox';
 import Tag from '../../tag';
+import Icon from '../../icon';
 import Vue from 'vue';
 import FilterPanel from './filter-panel.vue';
 
@@ -128,7 +129,9 @@ export default {
                     }
                     {
                       column.filterable
-                         ? <span class="el-table__column-filter-trigger" on-click={ ($event) => this.handleFilterClick($event, column) }><i class={ ['el-icon-arrow-down', column.filterOpened ? 'el-icon-arrow-up' : ''] }></i></span>
+                         ? <span class="el-table__column-filter-trigger" on-click={ ($event) => this.handleFilterClick($event, column) }>
+                           <Icon type={column.filterOpened? 'ios-arrow-up':'ios-arrow-down'}></Icon>
+                         </span>
                         : ''
                     }
                     </div>
@@ -170,7 +173,8 @@ export default {
 
   components: {
     Checkbox,
-    Tag
+    Tag,
+    Icon
   },
 
   computed: {

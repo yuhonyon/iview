@@ -94,7 +94,6 @@
             }
         },
         mounted () {
-          console.log(this.popperClass,1111)
             if (this.always) {
                 this.updatePopper();
             }
