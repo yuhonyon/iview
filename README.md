@@ -19,12 +19,12 @@ bug描述:on-change事件触发时机错误,value未改变
 
 ### datePicker&timePicker 添加输出格式api
 | API        | 说明    |类型|  默认  |
-| :---:  | --| :----: |
+| :---:  | --|| :----: | :----: |
 | outputFormat        | 输出格式'date'(时间戳), 'format'(同显示格式), 'number'(毫秒数)    |string |   date    |
 
 ### tabs组件添加router功能
 | API        | 说明    |类型|  默认  |
-| :---:  | --| :----: |
+| :---:  | --| :----: | :----: |
 | router        | 是否开启router功能    | boolean|  false    |
 | routerRoot   |  router basePath |   string||
 
@@ -33,26 +33,26 @@ bug描述:on-change事件触发时机错误,value未改变
 ### menu组件添加横向收起功能并添加tooltip提示
 #### Menu属性
 | API        | 说明   |类型|  默认  |
-| :---:  | --| :----: |
+| :---:  | --| :----: | :----: |
 | collapse        | 是否开启collapse功能   | boolean|   false    |
 
 #### MenuItem&&Submenu 属性
 
 | API        | 说明    |类型| 默认  |
-| :---:  | --| :----: |
+| :---:  | --| :----: | :----: |
 | tooltip        | 收起后提示内容    |    string |  |
 
 
 ### menu 组件添加router功能
 | API        | 说明    |类型| 默认  |
-| :---:  | --| :----: |
+| :---:  | --| :----: | :----: |
 | router        | 是否开启router功能    | boolean | false    |
 
 
 ### icon组件添加支持第三方字体功能
 
 | API        | 说明   |类型| 默认  |
-| :---:  | --| :----: |
+| :---:  | --| :----: | :----: |
 | prefix        | 字体class前缀  | string |   ivu-icon    |
 
 
