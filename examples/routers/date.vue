@@ -192,7 +192,7 @@
 <template>
     <div>
         <DatePicker v-model="value" @on-change="handleChange" type="datetimerange" placeholder="Select date" style="width: 400px"></DatePicker>
-        <DatePicker v-model="value2" type="datetime" @on-change="handleChange" style="width: 200px"></DatePicker>
+        <DatePicker v-model="value2" type="date" @on-change="handleChange" style="width: 200px"></DatePicker>
         <TimePicker type="time" placeholder="Select time" style="width: 168px"></TimePicker>
         {{ value }}
         <br>
@@ -214,7 +214,7 @@
         },
         methods: {
             handleChange (v) {
-                console.log(v);
+                console.log(this.value2,v);
             }
         }
     }

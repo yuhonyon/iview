@@ -472,8 +472,9 @@
             emitChange (date) {
                 const newDate = this.formattingDate(date);
 
-                this.$emit('on-change', newDate);
+
                 this.$nextTick(() => {
+                  this.$emit('on-change', newDate);
                     this.dispatch('FormItem', 'on-form-change', newDate);
                 });
             },
