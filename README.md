@@ -19,7 +19,7 @@ bug描述:on-change事件触发时机错误,value未改变
 
 ### datePicker&timePicker 添加输出格式api
 | API        | 说明    |类型|  默认  |
-| :---:  | --|| :----: | :----: |
+| :---:  | --| :----: | :----: |
 | outputFormat        | 输出格式'date'(时间戳), 'format'(同显示格式), 'number'(毫秒数)    |string |   date    |
 
 ### tabs组件添加router功能

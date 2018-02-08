@@ -10,11 +10,10 @@
     </div>
 </template>
 <script>
-    import AsyncValidator from 'async-validator';
+    import AsyncValidator from '../../utils/validator';
     import Emitter from '../../mixins/emitter';
     import extend from '../../utils/extend';
-    import aaa from '../../../node_modules/async-validator/lib/rule'
-    //console.log(aaa)
+
     const prefixCls = 'ivu-form-item';
 
     function getPropByPath(obj, path) {
@@ -201,7 +200,7 @@
 
                 let descriptor = {};
                 descriptor[this.prop] = rules;
-
+  
                 const validator = new AsyncValidator(descriptor);
                 let model = {};
 

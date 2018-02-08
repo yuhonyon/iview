@@ -4,7 +4,7 @@
             <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
 
                 <Form-item label-for="input" label="介绍" prop="desc">
-                    <Input element-id="input" icon="ios-search" v-model="formValidate.desc" type="text" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入..."></Input>
+                    <Input element-id="input" icon="ios-search" v-model.number="formValidate.desc" type="text" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入..."></Input>
                 </Form-item>
 
                 <Form-item label-for="select"  label="城市" prop="city">
@@ -18,6 +18,7 @@
                 <Form-item>
                     <Button type="primary" @click="handleSubmit('formValidate')" icon="ios-cloud-upload-outline">提交</Button>
                     <Button type="ghost" @click="handleReset('formValidate')" style="margin-left: 8px" icon="ios-reload">重置</Button>
+                    <Button type="ghost" @click="handleReset2('formValidate')" style="margin-left: 8px" icon="ios-reload">重置</Button>
                 </Form-item>
             </Form>
 
@@ -165,14 +166,15 @@
                     interest: [],
                     date: '',
                     time: '',
-                    desc: '',
+                    desc: 1,
                     cascader: [],
                     inputnumber: 1
                 },
 
                 ruleValidate: {
                     name: [
-                        { type:'string',required: true, message: '姓名不能为空', trigger: 'change' }
+                        { type:['string','number'],required: true, message: '姓名不能为空', trigger: 'change' },
+
                     ],
                     mail: [
                         { required: true, message: '邮箱不能为空', trigger: 'change' }
@@ -194,22 +196,21 @@
                         { required: this.aaaaaafn, type: 'date', message: '请选择时间', trigger: 'change' }
                     ],
                     desc: [
-                        { required: this.aaaaaafn, message: '请输入个人介绍', trigger: 'change' },
-                        { type: 'string', min: 20, message: '介绍不能少于20字', trigger: 'blur' }
+                        { required: this.aaaaaafn, message: '请输入个人介绍', trigger: 'change',type:'any' }
                     ]
                 }
             }
         },
         methods: {
             aaaaaafn(){
-              console.log(this)
+
               return this.aaaaaa;
             },
             handleSubmit (name) {
 
                 //this.ruleValidate.desc[0].required=false;
                 this.aaaaaa=false
-              
+
               this.$refs[name].resetFields(['desc','city'])
                 // this.$refs[name].validate((valid) => {
                 //     if (valid) {
@@ -221,6 +222,9 @@
             },
             handleReset (name) {
                 this.$refs[name].resetFields();
+            },
+            handleReset2(name){
+              this.$refs[name].validate();
             },
             handleSearch1 (value) {
                 this.data1 = !value ? [] : [
