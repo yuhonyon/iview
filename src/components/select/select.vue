@@ -418,6 +418,7 @@
             },
             // to select option for single
             toggleSingleSelected (value, init = false) {
+
                 if (!this.multiple) {
                     let label = '';
 
@@ -683,10 +684,12 @@
             this.$on('remove', this.debouncedAppendRemove());
 
             this.$on('on-select-selected', (value) => {
+
                 if (this.model === value) {
                     if (this.autoComplete) this.$emit('on-change', value);
                     this.hideMenu();
                 } else {
+                    this.$emit('on-selected', value);
                     if (this.multiple) {
                         const index = this.model.indexOf(value);
                         if (index >= 0) {

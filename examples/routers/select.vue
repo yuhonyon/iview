@@ -182,6 +182,10 @@
 
           <Option v-for="i in bbb" :key="i" :value="i">{{i}}</Option>
         </Select>
+        <Select v-model="m22" multiple @on-change="aaa">
+
+          <Option v-for="i in bbb" :key="i" :value="i">{{i}}</Option>
+        </Select>
     </div>
 </template>
 <script>
@@ -193,6 +197,7 @@
         data () {
             return {
               m2:'',
+              m22:[],
               bbb:[1,2,3,4,5],
                 model13: '',
                 loading1: false,

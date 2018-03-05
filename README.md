@@ -63,7 +63,7 @@ bug描述:on-change事件触发时机错误,value未改变
 | resetValidate        | 参数为String重置一个item,多个使用数组,为空重置所有  |
 | resetFields        | 规则同上  |
 
-
+### 表单验证添加类型 any
 
 ### 添加table&column组件,原table组件改名未grid默认不打包
 #### Table Attributes

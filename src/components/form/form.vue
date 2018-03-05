@@ -74,6 +74,7 @@
                 if (!field) { throw new Error('[iView warn]: must call resetField with valid prop string!'); }
                 return;
               }
+
                 this.fields.forEach(field => {
                     field.resetField();
                 });

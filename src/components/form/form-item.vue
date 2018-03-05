@@ -200,7 +200,6 @@
 
                 let descriptor = {};
                 descriptor[this.prop] = rules;
-  
                 const validator = new AsyncValidator(descriptor);
                 let model = {};
 

@@ -15,6 +15,19 @@
                     </Select>
                 </Form-item>
 
+                <Form-item label-for="input" label="name" prop="name">
+                    <Input element-id="input" icon="ios-search" v-model.number="formValidate.name" type="text" placeholder="请输入..."></Input>
+                </Form-item>
+
+                <FormItem label="Checkbox" prop="checkbox">
+           <CheckboxGroup v-model="formValidate.checkbox">
+               <Checkbox label="Eat"></Checkbox>
+               <Checkbox label="Sleep"></Checkbox>
+               <Checkbox label="Run"></Checkbox>
+               <Checkbox label="Movie"></Checkbox>
+           </CheckboxGroup>
+       </FormItem>
+
                 <Form-item>
                     <Button type="primary" @click="handleSubmit('formValidate')" icon="ios-cloud-upload-outline">提交</Button>
                     <Button type="ghost" @click="handleReset('formValidate')" style="margin-left: 8px" icon="ios-reload">重置</Button>
@@ -27,7 +40,18 @@
 </template>
 <script>
     export default {
+
         data () {
+          const validateInHospitalId=(rule,value,callback)=>{
+              if(value==""||this.hospitalInfo.buildType===1){
+                callback()
+              }else if(value>=0||value!==parseInt(value)){
+                callback(new Error('本地部署必须为负整数'))
+              }else{
+                callback()
+              }
+
+            }
             return {
               aaaaaa:true,
                 dataCascader: [{
@@ -159,6 +183,7 @@
                 model1: [],
                 name: '',
                 formValidate: {
+                  checkbox:[],
                     name: '',
                     mail: '',
                     city: '',
@@ -166,16 +191,13 @@
                     interest: [],
                     date: '',
                     time: '',
-                    desc: 1,
+                    desc: null,
                     cascader: [],
                     inputnumber: 1
                 },
 
                 ruleValidate: {
-                    name: [
-                        { type:['string','number'],required: true, message: '姓名不能为空', trigger: 'change' },
 
-                    ],
                     mail: [
                         { required: true, message: '邮箱不能为空', trigger: 'change' }
                     ],
@@ -196,7 +218,9 @@
                         { required: this.aaaaaafn, type: 'date', message: '请选择时间', trigger: 'change' }
                     ],
                     desc: [
-                        { required: this.aaaaaafn, message: '请输入个人介绍', trigger: 'change',type:'any' }
+                        { required: this.aaaaaafn, message: '请输入个人介绍', trigger: 'change',type:'any' },{
+                          trigger:'change',
+                        }
                     ]
                 }
             }
