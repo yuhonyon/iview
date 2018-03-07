@@ -180,11 +180,12 @@
         </Select>
         <Select v-model="m2" @on-change="aaa">
 
-          <Option v-for="i in bbb" :key="i" :value="i">{{i}}</Option>
+          <Option v-for="i in bbb" :key="i" :value="i">{{i||"全部"}}</Option>
         </Select>
-        <Select v-model="m22" multiple @on-change="aaa">
+        <button @click="m2=''">asdfdf</button>
+        <Select v-model="m2"  @on-change="aaa">
 
-          <Option v-for="i in bbb" :key="i" :value="i">{{i}}</Option>
+          <Option v-for="i in bbb2" :key="i" :value="i">{{i||'全部'}}</Option>
         </Select>
     </div>
 </template>
@@ -199,6 +200,7 @@
               m2:'',
               m22:[],
               bbb:[1,2,3,4,5],
+              bbb2:["",1,2,3,4,5],
                 model13: '',
                 loading1: false,
                 options1: [],

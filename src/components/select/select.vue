@@ -146,6 +146,7 @@
         data () {
             return {
                 prefixCls: prefixCls,
+                isNoFindModel:true,
                 visible: false,
                 options: [],
                 optionInstances: [],
@@ -192,7 +193,8 @@
                 let status = false;
 
                 if ((typeof this.model) === 'string') {
-                    if (this.model === ''&&!this.selectedSingle) {
+
+                    if (this.model === ''&&(!this.selectedSingle||this.isNoFindModel)) {
                         status = true;
                     }
                 } else if (Array.isArray(this.model)) {
@@ -329,9 +331,15 @@
                         }
                     }
 
+
                     if (slot && !findModel) {
                         this.model = '';
                         this.query = '';
+                    }
+                    if(!findModel){
+                        this.isNoFindModel=true;
+                    }else{
+                      this.isNoFindModel=false;
                     }
                 }
 
