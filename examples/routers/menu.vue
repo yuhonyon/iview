@@ -1,8 +1,8 @@
 <template>
     <div>
-        <Menu :theme="theme1" active-name="1" collapse>
+        <Menu :theme="theme1" router active-name="1" collapse>
           <MenuGroup title="后退账号管理">
-            <MenuItem name="/accountManagement">
+            <MenuItem name="/menu">
             <Icon type="document-text"></Icon><span>后台账号管理</span></MenuItem>
             <MenuItem name="/roleManagement">
             <Icon type="document-text"></Icon><span>角色管理</span></MenuItem>

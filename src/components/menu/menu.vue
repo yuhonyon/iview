@@ -124,13 +124,14 @@
                   })
                 }
                 if(this.collapse){
-                  console.log(this.openNames)
+                  //console.log(this.openNames)
                   this.openNames.splice(0, this.openNames.length);
                   this.updateOpened();
                 }
             });
             if(this.router){
-              this.$watch('$router',function(val,old){
+              this.currentActiveName =this.$route.path
+              this.$watch('$route',function(val,old){
                 if(val.path!==old.path){
                   this.currentActiveName =val.path
                 }

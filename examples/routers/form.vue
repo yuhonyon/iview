@@ -4,7 +4,9 @@
             <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
 
                 <Form-item label-for="input" label="介绍" prop="desc">
-                    <Input element-id="input" icon="ios-search" v-model.number="formValidate.desc" type="text" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入..."></Input>
+                  <Select v-model="formValidate.desc" multiple style="width:260px">
+                      <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                  </Select>
                 </Form-item>
 
                 <Form-item label-for="select"  label="城市" prop="city">
@@ -53,6 +55,33 @@
 
             }
             return {
+              cityList: [
+                    {
+                        value: 'New York',
+                        label: 'New York'
+                    },
+                    {
+                        value: 'London',
+                        label: 'London'
+                    },
+                    {
+                        value: 'Sydney',
+                        label: 'Sydney'
+                    },
+                    {
+                        value: 'Ottawa',
+                        label: 'Ottawa'
+                    },
+                    {
+                        value: 'Paris',
+                        label: 'Paris'
+                    },
+                    {
+                        value: 'Canberra',
+                        label: 'Canberra'
+                    }
+                ],
+                model10: [],
               aaaaaa:true,
                 dataCascader: [{
                     value: 'beijing',
@@ -191,7 +220,7 @@
                     interest: [],
                     date: '',
                     time: '',
-                    desc: null,
+                    desc: [],
                     cascader: [],
                     inputnumber: 1
                 },
@@ -218,7 +247,7 @@
                         { required: this.aaaaaafn, type: 'date', message: '请选择时间', trigger: 'change' }
                     ],
                     desc: [
-                        { required: this.aaaaaafn, message: '请输入个人介绍', trigger: 'change',type:'any' },{
+                        { required: this.aaaaaafn, message: '请输入个人介绍', trigger: 'change',type:'array' },{
                           trigger:'change',
                         }
                     ]
@@ -245,7 +274,7 @@
                 // })
             },
             handleReset (name) {
-                this.$refs[name].resetFields();
+                this.$refs[name].resetFields('desc');
             },
             handleReset2(name){
               this.$refs[name].validate();
