@@ -68,6 +68,10 @@
         name: 'InputNumber',
         mixins: [ Emitter ],
         props: {
+            plusminus:{
+              type:Boolean,
+              default:true
+            },
             max: {
                 type: Number,
                 default: Infinity
@@ -135,7 +139,8 @@
                 ];
             },
             handlerClasses () {
-                return `${prefixCls}-handler-wrap`;
+                return [`${prefixCls}-handler-wrap`,{
+                [`${prefixCls}-plusminus`]:this.plusminus}];
             },
             upClasses () {
                 return [
@@ -147,7 +152,13 @@
                 ];
             },
             innerUpClasses () {
-                return `${prefixCls}-handler-up-inner ${iconPrefixCls} ${iconPrefixCls}-ios-arrow-up`;
+                return [`${prefixCls}-handler-up-inner`,
+                         `${iconPrefixCls}`,
+                         {
+                           [`${iconPrefixCls}-ios-arrow-up`]:!this.plusminus,
+                           [`${iconPrefixCls}-plus`]:this.plusminus
+                         }
+                       ];
             },
             downClasses () {
                 return [
@@ -159,7 +170,13 @@
                 ];
             },
             innerDownClasses () {
-                return `${prefixCls}-handler-down-inner ${iconPrefixCls} ${iconPrefixCls}-ios-arrow-down`;
+                return [`${prefixCls}-handler-down-inner`,
+                         `${iconPrefixCls}`,
+                         {
+                           [`${iconPrefixCls}-ios-arrow-down`]:!this.plusminus,
+                           [`${iconPrefixCls}-minus`]:this.plusminus
+                         }
+                       ];
             },
             inputWrapClasses () {
                 return `${prefixCls}-input-wrap`;
