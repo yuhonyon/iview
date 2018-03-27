@@ -16,6 +16,7 @@
         ref="aaa"
         confirm
         title="您确认删除这条内容吗？"
+        poptip-class="aaaaaaaa"
         @on-ok="ok"
         @on-cancel="cancel">
 

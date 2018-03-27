@@ -90,6 +90,9 @@
                 type: Boolean,
                 default: false
             },
+            poptipClass: {
+                type: String
+            },
             okText: {
                 type: String
             },
@@ -121,6 +124,7 @@
             popperClasses () {
                 return [
                     `${prefixCls}-popper`,
+                    this.poptipClass,
                     {
                         [`${prefixCls}-confirm`]: this.transfer && this.confirm
                     }
