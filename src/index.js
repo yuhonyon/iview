@@ -145,14 +145,16 @@ const iview = {
     iTable: Table
 };
 
+
 const install = function(Vue, opts = {}) {
     if (install.installed) return;
     locale.use(opts.locale);
     locale.i18n(opts.i18n);
-
+    Vue.directive('poptip', Poptip.directive);
     Object.keys(iview).forEach(key => {
         Vue.component(key, iview[key]);
     });
+
 
     Vue.prototype.$Loading = LoadingBar;
     Vue.prototype.$Message = Message;

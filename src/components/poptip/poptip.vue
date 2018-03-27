@@ -1,15 +1,13 @@
 <template>
     <div
         :class="classes"
-        @mouseenter="handleMouseenter"
-        @mouseleave="handleMouseleave"
+
         v-clickoutside="handleClose">
         <div
             :class="[prefixCls + '-rel']"
             ref="reference"
-            @click="handleClick"
-            @mousedown="handleFocus(false)"
-            @mouseup="handleBlur(false)">
+            @click="handleTransferClick"
+          >
             <slot></slot>
         </div>
         <transition name="fade">
@@ -157,9 +155,10 @@
                     return false;
                 }
                 this.visible = !this.visible;
+                this.disableCloseUnderTransfer = false;
             },
             handleTransferClick () {
-                if (this.transfer) this.disableCloseUnderTransfer = true;
+                this.disableCloseUnderTransfer = true;
             },
             handleClose () {
                 if (this.disableCloseUnderTransfer) {
@@ -230,6 +229,14 @@
             }
         },
         mounted () {
+            let reference = this.$refs.reference;
+            reference.addEventListener('click', this.handleTransferClick, false);
+            reference.addEventListener('mouseenter', this.handleMouseenter, false);
+            reference.addEventListener('mouseleave', this.handleMouseleave, false);
+            reference.addEventListener('mousedown', ()=>{this.handleFocus(false)}, false);
+            reference.addEventListener('mouseup', ()=>{this.handleBlur(false)}, false);
+            reference.addEventListener('click', this.handleClick, false);
+
             if (!this.confirm) {
 //                this.showTitle = this.$refs.title.innerHTML != `<div class="${prefixCls}-title-inner"></div>`;
                 this.showTitle = (this.$slots.title !== undefined) || this.title;
@@ -247,11 +254,17 @@
             }
         },
         beforeDestroy () {
+            let reference = this.$refs.reference;
+
+            reference.removeEventListener('mousedown', this.handleFocus, false);
+            reference.removeEventListener('mouseup', this.handleBlur, false);
+            reference.removeEventListener('click', this.handleClick, false);
             const $children = this.getInputChildren();
             if ($children) {
                 $children.removeEventListener('focus', this.handleFocus, false);
                 $children.removeEventListener('blur', this.handleBlur, false);
             }
+
         }
     };
 </script>

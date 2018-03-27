@@ -1,29 +1,37 @@
 <template>
-    <div style="margin: 200px;">
-        <Poptip title="提示标题" transfer v-model="aaa">
-            <div slot="content" style="padding: 50px">
-                <Button>click me</Button>
-            </div>
-            <Button>click 激活</Button>
-        </Poptip>
+    <div>
+      <Poptip trigger="hover" title="提示标题" content="提示内容">
+          <Button>hover 激活</Button>
+      </Poptip>
+      <Poptip title="提示标题" content="提示内容">
+          <Button>click 激活</Button>
+      </Poptip>
+      <Poptip trigger="focus" title="提示标题" content="提示内容">
+          <Button>focus 激活</Button>
+      </Poptip>
+      <Poptip trigger="focus" title="提示标题" content="提示内容">
+          <i-input placeholder="输入框的 focus"></i-input>
+      </Poptip>
+      <Poptip
+        ref="aaa"
+        confirm
+        title="您确认删除这条内容吗？"
+        @on-ok="ok"
+        @on-cancel="cancel">
 
-        <button @click="aaa=!aaa">aaaaaaa</button>
+    </Poptip>
+      <Button v-poptip:aaa>删除</Button>
     </div>
 </template>
 <script>
     export default {
-      data(){
-        return {
-          aaa:true
-        }
-      },
-        methods: {
-            ok () {
-                this.$Message.info('点击了确定');
-            },
-            cancel () {
-                this.$Message.info('点击了取消');
-            }
-        }
+      methods: {
+                  ok () {
+                      this.$Message.info('点击了确定');
+                  },
+                  cancel () {
+                      this.$Message.info('点击了取消');
+                  }
+              }
     }
 </script>
