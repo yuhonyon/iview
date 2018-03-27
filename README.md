@@ -11,8 +11,30 @@
 
 ### 修改记录
 
+### poptip 组件添加指令v-poptip:ref
+解决 poptip组件影响布局问题
+
+### poptip 添加 disabled  poptipClass功能
+| API        | 说明    |类型|  默认  |
+| :---:  | --| :----: | :----: |
+| disabled        | 是否禁用    | boolean|  false    |
+| poptipClass   |  为poptip添加类名 |   string||
+
+
+### select 添加事件on-select
+手动选择select选项触发
+
+### inputNumber 添加带加减风格
+| API        | 说明    |类型|  默认  |
+| :---:  | --| :----: | :----: |
+| plusminus        | 风格    | boolean|  true    |
+
+
+
 ### select 组件bug修复
 bug描述:select的value不能为空
+
+
 
 ### datePicker&timePicker 组件修复
 bug描述:on-change事件触发时机错误,value未改变
@@ -20,7 +42,7 @@ bug描述:on-change事件触发时机错误,value未改变
 ### datePicker&timePicker 添加输出格式api
 | API        | 说明    |类型|  默认  |
 | :---:  | --| :----: | :----: |
-| outputFormat        | 输出格式'date'(时间戳), 'format'(同显示格式), 'number'(毫秒数)    |string |   date    |
+| outputFormat        | 输出格式'date'(时间戳), 'format'(同显示格式), 'number'(毫秒数)    |string |  date  |
 
 ### tabs组件添加router功能
 | API        | 说明    |类型|  默认  |

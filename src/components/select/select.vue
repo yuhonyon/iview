@@ -697,7 +697,7 @@
                     if (this.autoComplete) this.$emit('on-change', value);
                     this.hideMenu();
                 } else {
-                    this.$emit('on-selected', value);
+                    this.$emit('on-select', value);
                     if (this.multiple) {
                         const index = this.model.indexOf(value);
                         if (index >= 0) {
