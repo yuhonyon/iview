@@ -15,7 +15,7 @@
                 :class="popperClasses"
                 :style="styles"
                 ref="popper"
-                v-show="visible"
+                v-show="visible&&!disabled"
                 @click="handleTransferClick"
                 @mouseenter="handleMouseenter"
                 @mouseleave="handleMouseleave"
@@ -83,6 +83,10 @@
                 type: [String, Number]
             },
             confirm: {
+                type: Boolean,
+                default: false
+            },
+            disabled: {
                 type: Boolean,
                 default: false
             },
