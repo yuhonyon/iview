@@ -14,7 +14,7 @@
 ### table 组件添加过滤方法confirmFilter
 | Methods        | 说明    |参数|
 | :---:  | --| :----: |
-| confirmFilter        | 是否禁用    | columnId,filteredValue| 
+| confirmFilter        | 过滤方法    | columnId,filteredValue| 
 
 
 
