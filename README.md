@@ -11,10 +11,19 @@
 
 ### 修改记录
 
+
+### table 组件添加全局对齐方式
+| API        | 说明    |类型|  默认  |
+| :---:  | --| :----: | :----: |
+| align        | 对齐方式center left right    | string|  left    |
+| headerAlign        | 对齐方式center left right    | string|  left    |
+
+
+
 ### table 组件添加过滤方法confirmFilter
 | Methods        | 说明    |参数|
 | :---:  | --| :----: |
-| confirmFilter        | 过滤方法    | columnId,filteredValue| 
+| confirmFilter        | 过滤方法    | columnId,filteredValue|
 
 
 
