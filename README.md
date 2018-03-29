@@ -11,6 +11,13 @@
 
 ### 修改记录
 
+### table 组件添加过滤方法confirmFilter
+| Methods        | 说明    |参数|
+| :---:  | --| :----: |
+| confirmFilter        | 是否禁用    | columnId,filteredValue| 
+
+
+
 ### poptip 组件添加指令v-poptip:ref
 解决 poptip组件影响布局问题
 

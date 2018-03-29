@@ -1,90 +1,80 @@
 <template>
-    <Table border :columns="columns6" :data="data5"></Table>
+  <Table
+    :data="tableData"
+    style="width: 100%">
+    <Column
+      prop="date"
+      label="日期"
+      sortable
+      width="180"
+      :filters="[{text: '2016-05-01', value: '2016-05-01'}, {text: '2016-05-02', value: '2016-05-02'}, {text: '2016-05-03', value: '2016-05-03'}, {text: '2016-05-04', value: '2016-05-04'}]"
+      :filter-method="filterHandler"
+    >
+  </Column>
+    <Column
+      prop="name"
+      label="姓名"
+      width="180">
+    </Column>
+    <Column
+      prop="address"
+      label="地址"
+      :formatter="formatter">
+    </Column>
+    <Column
+      prop="tag"
+      label="标签"
+      width="100"
+      :filters="[{ text: '家', value: '家' }, { text: '公司', value: '公司' }]"
+      :filter-method="filterTag"
+      filter-placement="bottom-end">
+      <template slot-scope="scope">
+        <Tag
+          :type="scope.row.tag === '家' ? 'primary' : 'success'"
+          close-transition>{{scope.row.tag}}</Tag>
+      </template>
+    </Column>
+  </Table>
 </template>
+
 <script>
-    export default {
-        data () {
-            return {
-                columns6: [
-                    {
-                        title: 'Date',
-                        key: 'date'
-                    },
-                    {
-                        title: 'Name',
-                        key: 'name'
-                    },
-                    {
-                        title: 'Age',
-                        key: 'age',
-                        filters: [
-                            {
-                                label: 'Greater than 25',
-                                value: 1
-                            },
-                            {
-                                label: 'Less than 25',
-                                value: 2
-                            }
-                        ],
-                        filterMultiple: false,
-                        filterMethod (value, row) {
-                            if (value === 1) {
-                                return row.age > 25;
-                            } else if (value === 2) {
-                                return row.age < 25;
-                            }
-                        }
-                    },
-                    {
-                        title: 'Address',
-                        key: 'address',
-                        filters: [
-                            {
-                                label: 'New York',
-                                value: 'New York'
-                            },
-                            {
-                                label: 'London',
-                                value: 'London'
-                            },
-                            {
-                                label: 'Sydney',
-                                value: 'Sydney'
-                            }
-                        ],
-                        filterMethod (value, row) {
-                            return row.address.indexOf(value) > -1;
-                        }
-                    }
-                ],
-                data5: [
-                    {
-                        name: 'John Brown',
-                        age: 18,
-                        address: 'New York No. 1 Lake Park',
-                        date: '2016-10-03'
-                    },
-                    {
-                        name: 'Jim Green',
-                        age: 24,
-                        address: 'London No. 1 Lake Park',
-                        date: '2016-10-01'
-                    },
-                    {
-                        name: 'Joe Black',
-                        age: 30,
-                        address: 'Sydney No. 1 Lake Park',
-                        date: '2016-10-02'
-                    },
-                    {
-                        name: 'Jon Snow',
-                        age: 26,
-                        address: 'Ottawa No. 2 Lake Park',
-                        date: '2016-10-04'
-                    }
-                ],
-            }
-        }
+  export default {
+    data() {
+      return {
+        tableData: [{
+          date: '2016-05-02',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄',
+          tag: '家'
+        }, {
+          date: '2016-05-04',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1517 弄',
+          tag: '公司'
+        }, {
+          date: '2016-05-01',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1519 弄',
+          tag: '家'
+        }, {
+          date: '2016-05-03',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1516 弄',
+          tag: '公司'
+        }]
+      }
+    },
+    methods: {
+      formatter(row, column) {
+        return row.address;
+      },
+      filterTag(value, row) {
+        return row.tag === value;
+      },
+      filterHandler(value, row, column) {
+        const property = column['property'];
+        return row[property] === value;
+      }
     }
+  }
 </script>

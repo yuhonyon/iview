@@ -1,47 +1,56 @@
 <template>
-  <Table
-    :data="tableData"
-    :max-height="900"
-    border
-    stripe
-    size="medium"
+  <div>
+    <Table
+      :data="tableData"
+      :max-height="900"
+      ref="bbb"
+      border
+      stripe
+      size="medium"
 
-    style="width: 100%">
-    <Column
-      prop="date"
-      label="日期"
-      sortable
-      width="180">
-    </Column>
-    <Column
-      prop="name"
-      label="姓名"
-      width="180">
-    </Column>
-    <Column
-      prop="address"
-      label="地址"
-      :show-tooltip-when-overflow="true"
-      :formatter="formatter">
-    </Column>
-    <Column
-      prop="tag"
-      label="标签"
-      width="100"
-      :filters="[{ text: '家', value: '家' }, { text: '公司', value: '公司' }]"
-      :filter-method="filterTag"
-      filter-placement="bottom-end">
-      <template slot-scope="scope">
-        <Tag
-          :color="scope.row.tag === '家' ? 'red' : 'green'"
-          >{{scope.row.tag}}</Tag>
-      </template>
-    </Column>
-  </Table>
+      style="width: 100%">
+      <Column
+        prop="date"
+        label="日期"
+        sortable
+        width="180">
+      </Column>
+      <Column
+        prop="name"
+        label="姓名"
+        width="180">
+      </Column>
+      <Column
+        prop="address"
+        label="地址"
+        :show-tooltip-when-overflow="true"
+        :formatter="formatter">
+      </Column>
+      <Column
+         ref="aaa"
+        prop="tag"
+        label="标签"
+        width="100"
+        :filters="[{ text: '家', value: '家' }, { text: '公司', value: '公司' }]"
+        :filter-method="filterTag"
+        filter-placement="bottom-end">
+        <template slot-scope="scope">
+          <Tag
+            :color="scope.row.tag === '家' ? 'red' : 'green'"
+            >{{scope.row.tag}}</Tag>
+        </template>
+      </Column>
+    </Table>
+
+    <Button @click="aaa">aaaa</Button>
+  </div>
 </template>
 
 <script>
   export default {
+    mounted(){
+
+    },
     data() {
       return {
         tableData: [{
@@ -68,6 +77,9 @@
       }
     },
     methods: {
+      aaa(){
+        this.$refs.bbb.confirmFilter('el-table_1_column_4',['家'])
+      },
       formatter(row, column) {
         return row.address;
       },

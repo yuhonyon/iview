@@ -284,6 +284,19 @@
         this.store.clearFilter();
       },
 
+      confirmFilter(columnId,filteredValue=[]){
+        let column=this.columns.filter(item=>(item.id===columnId))
+        if(!column&&!column.length){
+          return;
+        }
+        column=column[0]
+        column.filteredValue=filteredValue;
+        this.store.commit('filterChange', {
+          column: column,
+          values: filteredValue
+        });
+      },
+
       clearSort() {
         this.store.clearSort();
       },
