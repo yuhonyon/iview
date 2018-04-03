@@ -697,7 +697,9 @@
                     if (this.autoComplete) this.$emit('on-change', value);
                     this.hideMenu();
                 } else {
-                    this.$emit('on-select', value);
+                    setTimeout(()=>{
+                      this.$emit('on-select', value);
+                    },0);
                     if (this.multiple) {
                         const index = this.model.indexOf(value);
                         if (index >= 0) {
@@ -725,6 +727,7 @@
                             });
                         }
                     }
+
                 }
             });
         },

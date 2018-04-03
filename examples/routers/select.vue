@@ -178,12 +178,12 @@
                 :loading="loading2">
             <Option v-for="(option, index) in options2" :value="option.value" :key="index">{{option.label}}</Option>
         </Select>
-        <Select v-model="m2" @on-change="aaa">
+        <Select v-model="m2" @on-select="aaa">
 
           <Option v-for="i in bbb" :key="i" :value="i">{{i||"全部"}}</Option>
         </Select>
         <button @click="m2=''">asdfdf</button>
-        <Select v-model="m2"  @on-change="aaa">
+        <Select v-model="m2"  @on-select="aaa">
 
           <Option v-for="i in bbb2" :key="i" :value="i">{{i||'全部'}}</Option>
         </Select>
@@ -212,7 +212,7 @@
         },
         methods: {
           aaa(a){
-            //alert(9)
+            console.log(a,this.m2)
           },
             remoteMethod2 (query) {
                 if (query !== '') {
