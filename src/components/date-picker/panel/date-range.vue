@@ -30,8 +30,8 @@
                     :year="leftYear"
                     :month="leftMonth"
                     :date="date"
-                    :min-date="minDate"
-                    :max-date="maxDate"
+                    :start-date="startDate"
+                    :end-date="endDate"
                     :range-state="rangeState"
                     selection-mode="range"
                     :disabled-date="disabledDate"
@@ -80,8 +80,8 @@
                     :year="rightYear"
                     :month="rightMonth"
                     :date="rightDate"
-                    :min-date="minDate"
-                    :max-date="maxDate"
+                    :start-date="startDate"
+                    :end-date="endDate"
                     :range-state="rangeState"
                     selection-mode="range"
                     :disabled-date="disabledDate"
@@ -152,8 +152,8 @@
                 shortcuts: [],
                 date: initTimeDate(),
                 value: '',
-                minDate: '',
-                maxDate: '',
+                startDate: '',
+                endDate: '',
                 confirm: false,
                 rangeState: {
                     endDate: null,
@@ -228,25 +228,25 @@
                 return this.panelLabelConfig('right');
             },
             timeDisabled () {
-                return !(this.minDate && this.maxDate);
+                return !(this.startDate && this.endDate);
             }
         },
         watch: {
             value(newVal) {
                 if (!newVal) {
-                    this.minDate = null;
-                    this.maxDate = null;
+                    this.startDate = null;
+                    this.endDate = null;
                 } else if (Array.isArray(newVal)) {
-                    this.minDate = newVal[0] ? toDate(newVal[0]) : null;
-                    this.maxDate = newVal[1] ? toDate(newVal[1]) : null;
-                    if (this.minDate) this.date = new Date(this.minDate);
+                    this.startDate = newVal[0] ? toDate(newVal[0]) : null;
+                    this.endDate = newVal[1] ? toDate(newVal[1]) : null;
+                    if (this.startDate) this.date = new Date(this.startDate);
                 }
                 if (this.showTime) this.$refs.timePicker.value = newVal;
             },
-            minDate (val) {
+            startDate (val) {
                 if (this.showTime) this.$refs.timePicker.date = val;
             },
-            maxDate (val) {
+            endDate (val) {
                 if (this.showTime) this.$refs.timePicker.dateEnd = val;
             },
             format (val) {
@@ -279,8 +279,8 @@
                 this.rightTableYear = this.rightDate.getFullYear();
             },
             handleClear() {
-                this.minDate = null;
-                this.maxDate = null;
+                this.startDate = null;
+                this.endDate = null;
                 this.date = new Date();
                 this.handleConfirm();
                 if (this.showTime) this.$refs.timePicker.handleClear();
@@ -364,19 +364,19 @@
                 this[`${direction}CurrentView`] = 'month';
             },
             handleConfirm(visible) {
-                this.$emit('on-pick', [this.minDate, this.maxDate], visible);
+                this.$emit('on-pick', [this.startDate, this.endDate], visible);
             },
             handleRangePick (val, close = true) {
-                if (this.maxDate === val.maxDate && this.minDate === val.minDate) return;
+                if (this.endDate === val.endDate && this.startDate === val.startDate) return;
 
-                this.minDate = val.minDate;
-                this.maxDate = val.maxDate;
+                this.startDate = val.startDate;
+                this.endDate = val.endDate;
 
                 // todo Remove when Chromium has fixed bug
                 // https://github.com/iview/iview/issues/2122
                 this.$nextTick(() => {
-                    this.minDate = val.minDate;
-                    this.maxDate = val.maxDate;
+                    this.startDate = val.startDate;
+                    this.endDate = val.endDate;
                 });
                 /* end of #2122 patch */
 
@@ -387,24 +387,24 @@
                 this.handleConfirm(false);
             },
             handleChangeRange (val) {
-                this.minDate = val.minDate;
-                this.maxDate = val.maxDate;
+                this.startDate = val.startDate;
+                this.endDate = val.endDate;
                 this.rangeState = val.rangeState;
             },
             handleToggleTime () {
                 this.isTime = !this.isTime;
             },
             handleTimePick (date) {
-                this.minDate = date[0];
-                this.maxDate = date[1];
+                this.startDate = date[0];
+                this.endDate = date[1];
                 this.handleConfirm(false);
             }
         },
         mounted () {
             if (this.showTime) {
                 // todo 这里也到不了
-                this.$refs.timePicker.date = this.minDate;
-                this.$refs.timePicker.dateEnd = this.maxDate;
+                this.$refs.timePicker.date = this.startDate;
+                this.$refs.timePicker.dateEnd = this.endDate;
                 this.$refs.timePicker.value = this.value;
                 this.$refs.timePicker.format = this.format;
                 this.$refs.timePicker.showDate = true;

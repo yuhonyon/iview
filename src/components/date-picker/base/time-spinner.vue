@@ -175,10 +175,12 @@
                 const times = ['hours', 'minutes', 'seconds'];
                 this.$nextTick(() => {
                     times.forEach(type => {
-                        let index=this[`${type}List`].findIndex(obj => obj.text == this[type])
-                        this.$refs[type].scrollTop = 24 * index ;
-                        if(index===0){
-                          this.$refs[type].scrollTop = 24 * this.getScrollIndex(type, index)-this.$refs[type].clientHeight/2+192;
+                        let index=this[`${type}List`].findIndex(obj => obj.text === this[type])
+
+                        if(index===-1){
+                          this.$refs[type].scrollTop = 24 * this.getScrollIndex(type, 0)-this.$refs[type].clientHeight/2+168;
+                        }else{
+                          this.$refs[type].scrollTop = 24 * index ;
                         }
                     });
                 });

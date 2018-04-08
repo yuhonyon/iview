@@ -38,6 +38,8 @@
                     :date="date"
                     :value="value"
                     :selection-mode="selectionMode"
+                    :min-date="minDate"
+                    :max-date="maxDate"
                     :disabled-date="disabledDate"
                     @on-pick="handleDatePick"
                     @on-pick-click="handlePickClick"></date-table>
@@ -107,11 +109,14 @@
                 showTime: false,
                 selectionMode: 'day',
                 disabledDate: '',
+                maxDate: null,
+                minDate: null,
                 year: null,
                 month: null,
                 confirm: false,
                 isTime: false,
-                format: 'yyyy-MM-dd'
+                format: 'yyyy-MM-dd HH:mm:ss',
+                defaultTime:"00:00:00"
             };
         },
         computed: {
@@ -156,6 +161,8 @@
                 }
                 if (this.showTime) this.$refs.timePicker.value = newVal;
             },
+
+      
             date (val) {
                 if (this.showTime) this.$refs.timePicker.date = val;
             },
@@ -234,14 +241,32 @@
                     this.$emit('on-pick', value);
                 }
             },
-            handleDatePick (value) {
+            handleDatePick (value,hasTime) {
+
+
+
                 if (this.selectionMode === 'day') {
+
+                  if(!hasTime){
+                    let oldDate=this.value;
+                    if(typeof this.value!=='object'){
+                      oldDate=parseDate(this.value,this.format)
+                      if(!oldDate){
+                        oldDate=new Date('2000-12-12 '+this.defaultTime);
+                      }else{
+                        oldDate=new Date(oldDate)
+                      }
+                    }
+
+                    value= new Date(value.setHours(oldDate.getHours(),oldDate.getMinutes(),oldDate.getSeconds()))
+                  }
+
                     this.$emit('on-pick', new Date(value.getTime()));
                     this.date = new Date(value);
                 }
             },
             handleTimePick (date) {
-                this.handleDatePick(date);
+                this.handleDatePick(date,true);
             }
         },
         mounted () {

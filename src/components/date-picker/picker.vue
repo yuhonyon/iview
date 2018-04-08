@@ -155,6 +155,16 @@
             format: {
                 type: String
             },
+            defaultTime:{
+                type:String,
+                default: '00:00:00'
+            },
+            maxDate:{
+                default: null
+            },
+            minDate:{
+                default: null
+            },
             outputFormat:{
                 validator (value) {
                     return oneOf(value, ['date', 'format', 'number']);
@@ -366,10 +376,10 @@
                     correctDate = parseDate(correctValue, format);
                 } else {
                     const parsedDate = parseDate(value, format);
-
                     if (parsedDate instanceof Date) {
                         const options = this.options || false;
-                        if (options && options.disabledDate && typeof options.disabledDate === 'function' && options.disabledDate(new Date(parsedDate))) {
+
+                        if ((options && options.disabledDate && typeof options.disabledDate === 'function' && options.disabledDate(new Date(parsedDate)))||this.disableRangeDate(new Date(parsedDate))) {
                             correctValue = oldValue;
                         } else {
                             correctValue = formatDate(parsedDate, format);
@@ -390,6 +400,40 @@
                 this.currentValue = correctDate;
 
                 if (correctValue !== oldValue) this.emitChange(correctDate);
+            },
+            disableRangeDate(date){
+              let maxDate=this.maxDate;
+              let minDate=this.minDate;
+
+                if(maxDate==='today'){
+                  maxDate=new Date().setHours(23,59,59,999)
+                }
+                if(minDate==='today'){
+                  minDate=new Date().setHours(0,0,0,0)
+                }
+                if(maxDate==='now'){
+                  maxDate=new Date()
+                }
+                if(minDate==='now'){
+                  minDate=new Date()
+                }
+
+              if(maxDate){
+                if (maxDate instanceof Date) {
+                  if (date.getTime()>maxDate.getTime())return true
+                }else{
+                  if (date.getTime()>new Date(maxDate).getTime()) return true
+                }
+              }
+              if(minDate){
+                if (minDate instanceof Date) {
+                  if (date.getTime()<minDate.getTime())return true
+                }else{
+                  if (date.getTime()<new Date(minDate).getTime()) return true
+                }
+              }
+
+              return false
             },
             handleInputMouseenter () {
                 if (this.readonly || this.disabled) return;
@@ -432,6 +476,9 @@
                     this.picker.value = this.internalValue;
                     this.picker.confirm = isConfirm;
                     this.picker.selectionMode = this.selectionMode;
+                    this.picker.defaultTime=this.defaultTime;
+                    this.picker.maxDate=this.maxDate;
+                    this.picker.minDate=this.minDate;
                     if (this.format) this.picker.format = this.format;
 
                     // TimePicker
@@ -539,7 +586,12 @@
                         val = val.join(RANGE_SEPARATOR);
                         val = parser(val, this.format || DEFAULT_FORMATS[type]);
                     } else if (typeof val === 'string' && type.indexOf('time') !== 0 ){
+
                         val = parser(val, this.format || DEFAULT_FORMATS[type]) || val;
+                        if(val){
+                          val=new Date(val)
+                        }
+
                     }
                     this.internalValue = val;
 
@@ -571,10 +623,12 @@
 
 
 
-
+                    //待删除
                     if(index>-1000){
                       index--;
-                        console.log(index)
+                        if(index<-100){
+                          console.log(index)
+                        }
                         this.$emit('input',this.outputValue);
                       return
                     }

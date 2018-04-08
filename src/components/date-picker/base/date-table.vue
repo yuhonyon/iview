@@ -33,8 +33,10 @@
                 default: 'day'
             },
             disabledDate: {},
-            minDate: {},
-            maxDate: {},
+            startDate: {},
+            endDate: {},
+            maxDate:null,
+            minDate:null,
             rangeState: {
                 default () {
                     return {
@@ -55,7 +57,7 @@
             'rangeState.endDate' (newVal) {
                 this.markRange(newVal);
             },
-            minDate(newVal, oldVal) {
+            startDate(newVal, oldVal) {
                 if (newVal && !oldVal) {
                     this.rangeState.selecting = true;
                     this.markRange(newVal);
@@ -66,13 +68,13 @@
                     this.markRange();
                 }
             },
-            maxDate(newVal, oldVal) {
+            endDate(newVal, oldVal) {
                 if (newVal && !oldVal) {
                     this.rangeState.selecting = false;
                     this.markRange(newVal);
 //                    this.$emit('on-pick', {
-//                        minDate: this.minDate,
-//                        maxDate: this.maxDate
+//                        startDate: this.startDate,
+//                        endDate: this.endDate
 //                    });
                 }
             },
@@ -103,8 +105,8 @@
                 const day = (getFirstDayOfMonth(date) || 7) - weekStartDay; // day of first day
                 const today = clearHours(new Date());    // timestamp of today
                 const selectDay = clearHours(new Date(this.value));    // timestamp of selected day
-                const minDay = clearHours(new Date(this.minDate));
-                const maxDay = clearHours(new Date(this.maxDate));
+                const minDay = clearHours(new Date(this.startDate));
+                const maxDay = clearHours(new Date(this.endDate));
 
                 const dateCountOfMonth = getDayCountOfMonth(date.getFullYear(), date.getMonth());
                 const dateCountOfLastMonth = getDayCountOfMonth(date.getFullYear(), (date.getMonth() === 0 ? 11 : date.getMonth() - 1));
@@ -129,7 +131,7 @@
                         cell.text = dateCountOfLastMonth - (day - 1) + i;
                         cell.date = new Date(this.year, this.month - 1, cell.text);
                         const time = clearHours(cell.date);
-                        cell.disabled = typeof disabledDate === 'function' && disabledDate(new Date(time));
+                        cell.disabled = (typeof disabledDate === 'function' && disabledDate(new Date(time)))||this.disableRangeDate(new Date(time));
                         cells.push(cell);
                     }
                 }
@@ -141,10 +143,10 @@
                     const time = clearHours(cell.date);
                     cell.type = time === today ? 'today' : 'normal';
                     cell.selected = time === selectDay;
-                    cell.disabled = typeof disabledDate === 'function' && disabledDate(new Date(time));
+                    cell.disabled = (typeof disabledDate === 'function' && disabledDate(new Date(time)))||this.disableRangeDate(new Date(time));
                     cell.range = time >= minDay && time <= maxDay;
-                    cell.start = this.minDate && time === minDay;
-                    cell.end = this.maxDate && time === maxDay;
+                    cell.start = this.startDate && time === minDay;
+                    cell.end = this.endDate && time === maxDay;
 
                     cells.push(cell);
                 }
@@ -156,7 +158,7 @@
                     cell.text = i;
                     cell.date = new Date(this.year, this.month + 1, cell.text);
                     const time = clearHours(cell.date);
-                    cell.disabled = typeof disabledDate === 'function' && disabledDate(new Date(time));
+                    cell.disabled = (typeof disabledDate === 'function' && disabledDate(new Date(time)))||this.disableRangeDate(new Date(time));
                     cells.push(cell);
                 }
 
@@ -170,48 +172,76 @@
                 const newDate = cell.date;
 
                 if (this.selectionMode === 'range') {
-                    if (this.minDate && this.maxDate) {
-                        const minDate = new Date(newDate.getTime());
-                        const maxDate = null;
+                    if (this.startDate && this.endDate) {
+                        const startDate = new Date(newDate.getTime());
+                        const endDate = null;
                         this.rangeState.selecting = true;
-                        this.markRange(this.minDate);
+                        this.markRange(this.startDate);
 
-                        this.$emit('on-pick', {minDate, maxDate}, false);
-                    } else if (this.minDate && !this.maxDate) {
-                        if (newDate >= this.minDate) {
-                            const maxDate = new Date(newDate.getTime());
+                        this.$emit('on-pick', {startDate, endDate}, false);
+                    } else if (this.startDate && !this.endDate) {
+                        if (newDate >= this.startDate) {
+                            const endDate = new Date(newDate.getTime());
                             this.rangeState.selecting = false;
 
-                            this.$emit('on-pick', {minDate: this.minDate, maxDate});
+                            this.$emit('on-pick', {startDate: this.startDate, endDate});
                         } else {
-                            const minDate = new Date(newDate.getTime());
+                            const startDate = new Date(newDate.getTime());
 
-                            this.$emit('on-pick', {minDate, maxDate: this.maxDate}, false);
+                            this.$emit('on-pick', {startDate, endDate: this.endDate}, false);
                         }
-                    } else if (!this.minDate) {
-                        const minDate = new Date(newDate.getTime());
+                    } else if (!this.startDate) {
+                        const startDate = new Date(newDate.getTime());
                         this.rangeState.selecting = true;
-                        this.markRange(this.minDate);
+                        this.markRange(this.startDate);
 
-                        this.$emit('on-pick', {minDate, maxDate: this.maxDate}, false);
+                        this.$emit('on-pick', {startDate, endDate: this.endDate}, false);
                     }
                 } else {
-                    if(this.value){
-                      newDate.setHours(this.value.getHours())
-                      newDate.setMinutes(this.value.getMinutes())
-                      newDate.setSeconds(this.value.getSeconds())
-                    }
-
                     this.$emit('on-pick', newDate);
                 }
                 this.$emit('on-pick-click');
+            },
+            disableRangeDate(date){
+              let maxDate=this.maxDate;
+              let minDate=this.minDate;
+
+                if(maxDate==='today'){
+                  maxDate=new Date().setHours(23,59,59,999)
+                }
+                if(minDate==='today'){
+                  minDate=new Date().setHours(0,0,0,0)
+                }
+                if(maxDate==='now'){
+                  maxDate=new Date()
+                }
+                if(minDate==='now'){
+                  minDate=new Date()
+                }
+
+              if(maxDate){
+                if (maxDate instanceof Date) {
+                  if (date.getTime()>maxDate.getTime())return true
+                }else{
+                  if (date.getTime()>new Date(maxDate).getTime()) return true
+                }
+              }
+              if(minDate){
+                if (minDate instanceof Date) {
+                  if (date.getTime()<minDate.getTime())return true
+                }else{
+                  if (date.getTime()<new Date(minDate).getTime()) return true
+                }
+              }
+
+              return false
             },
             handleMouseMove (event) {
                 if (!this.rangeState.selecting) return;
 
                 this.$emit('on-changerange', {
-                    minDate: this.minDate,
-                    maxDate: this.maxDate,
+                    startDate: this.startDate,
+                    endDate: this.endDate,
                     rangeState: this.rangeState
                 });
 
@@ -222,19 +252,19 @@
                     this.rangeState.endDate = cell.date;
                 }
             },
-            markRange (maxDate) {
-                const minDate = this.minDate;
-                if (!maxDate) maxDate = this.maxDate;
+            markRange (endDate) {
+                const startDate = this.startDate;
+                if (!endDate) endDate = this.endDate;
 
-                const minDay = clearHours(new Date(minDate));
-                const maxDay = clearHours(new Date(maxDate));
+                const minDay = clearHours(new Date(startDate));
+                const maxDay = clearHours(new Date(endDate));
 
                 this.cells.forEach(cell => {
                     if (cell.type === 'today' || cell.type === 'normal') {
                         const time = clearHours(new Date(this.year, this.month, cell.text));
                         cell.range = time >= minDay && time <= maxDay;
-                        cell.start = minDate && time === minDay;
-                        cell.end = maxDate && time === maxDay;
+                        cell.start = startDate && time === minDay;
+                        cell.end = endDate && time === maxDay;
                     }
                 });
             },

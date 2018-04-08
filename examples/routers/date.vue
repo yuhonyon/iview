@@ -201,7 +201,7 @@
         <DatePicker type="year" v-model="value3" placeholder="Select year" style="width: 200px"></DatePicker>
         <DatePicker type="month" v-model="value4" placeholder="Select month" style="width: 200px"></DatePicker>
 
-        <DateTimePicker v-model="value5"  format="yyyy-MM-dd HH-mm-ss" type="datetime" @on-change="handleChange" style="width: 200px"></DateTimePicker>
+        <DateTimePicker :minDate="Date.now()-3600*24*1000*10" :maxDate="'today'" defaultTime="09:09:12" v-model="value5"  format="yyyy-MM-dd HH:mm:ss" type="datetime" @on-change="handleChange" style="width: 200px"></DateTimePicker>
     </div>
 </template>
 <script>
@@ -212,7 +212,7 @@
                 value2: '2018-02-05 10:09:00',
                 value3: '1978',
                 value4: '1978-05',
-                value5: '2018-02-05 10:09:00',
+                value5: '2018-3-1 12:2',
             }
         },
         methods: {
