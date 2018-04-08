@@ -1,6 +1,6 @@
 <template>
     <div :class="classes">
-        <div :class="[prefixCls+ '-list']" ref="hours">
+        <div :class="[prefixCls+ '-list']" ref="hours"  @scroll="handleScroll">
             <ul :class="[prefixCls + '-ul']">
                 <li :class="getCellCls(item)" v-for="item in hoursList" v-show="!item.hide" @click="handleClick('hours', item)">{{ formatTime(item.text) }}</li>
             </ul>
@@ -136,6 +136,10 @@
             }
         },
         methods: {
+          handleScroll(e){
+
+          },
+
             getCellCls (cell) {
                 return [
                     `${prefixCls}-cell`,
@@ -154,7 +158,7 @@
             },
             scroll (type, index) {
                 const from = this.$refs[type].scrollTop;
-                const to = 24 * this.getScrollIndex(type, index);
+                const to = 24 * this.getScrollIndex(type, index)-this.$refs[type].clientHeight/2+108;
                 scrollTop(this.$refs[type], from, to, 500);
             },
             getScrollIndex (type, index) {
@@ -171,7 +175,11 @@
                 const times = ['hours', 'minutes', 'seconds'];
                 this.$nextTick(() => {
                     times.forEach(type => {
-                        this.$refs[type].scrollTop = 24 * this[`${type}List`].findIndex(obj => obj.text == this[type]);
+                        let index=this[`${type}List`].findIndex(obj => obj.text == this[type])
+                        this.$refs[type].scrollTop = 24 * index ;
+                        if(index===0){
+                          this.$refs[type].scrollTop = 24 * this.getScrollIndex(type, index)-this.$refs[type].clientHeight/2+192;
+                        }
                     });
                 });
             },
@@ -199,3 +207,16 @@
         }
     };
 </script>
+<style>
+.ivu-time-picker-cells-ul{
+  padding: 96px 0 96px 0!important;
+}
+.ivu-time-picker-cells-cell-selected{
+  font-weight: bold;
+}
+
+.ivu-time-picker-cells{
+  position: relative;
+}
+
+</style>

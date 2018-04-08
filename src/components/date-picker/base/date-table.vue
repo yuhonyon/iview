@@ -196,6 +196,12 @@
                         this.$emit('on-pick', {minDate, maxDate: this.maxDate}, false);
                     }
                 } else {
+                    if(this.value){
+                      newDate.setHours(this.value.getHours())
+                      newDate.setMinutes(this.value.getMinutes())
+                      newDate.setSeconds(this.value.getSeconds())
+                    }
+
                     this.$emit('on-pick', newDate);
                 }
                 this.$emit('on-pick-click');
