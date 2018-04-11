@@ -6,10 +6,16 @@
     margin: 0 auto;
     position: relative;
     outline: none;
-    top: 100px;
+
 
     &-hidden {
         display: none !important;
+    }
+
+    &-vertical-center{
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     &-wrap {
@@ -23,6 +29,7 @@
         -webkit-overflow-scrolling: touch;
         outline: 0;
     }
+
 
     &-wrap * {
         box-sizing: border-box;

@@ -261,7 +261,7 @@
                     }
 
                     value= new Date(value.setHours(oldDate.getHours(),oldDate.getMinutes(),oldDate.getSeconds()))
-                    console.log(oldDate.getHours(),value.getHours())
+
                   }
 
                     this.$emit('on-pick', new Date(value.getTime()));

@@ -3,7 +3,7 @@
         <transition :name="transitionNames[1]">
             <div :class="maskClasses" v-show="visible" @click="mask"></div>
         </transition>
-        <div :class="wrapClasses" @click="handleWrapClick">
+        <div :class="wrapClasses" @click="handleWrapClick" :style="{top:typeof position==='number'?position:0}">
             <transition :name="transitionNames[0]" @after-leave="animationFinish">
                 <div :class="classes" :style="mainStyles" v-show="visible">
                     <div :class="[prefixCls + '-content']">
@@ -42,6 +42,10 @@
         components: { Icon, iButton },
         directives: { TransferDom },
         props: {
+            position:{
+              type: [Number, String],
+              default:"center"
+            },
             value: {
                 type: Boolean,
                 default: false
@@ -112,7 +116,8 @@
                     `${prefixCls}-wrap`,
                     {
                         [`${prefixCls}-hidden`]: !this.wrapShow,
-                        [`${this.className}`]: !!this.className
+                        [`${this.className}`]: !!this.className,
+                        [`${prefixCls}-vertical-center`]: this.position==='center'
                     }
                 ];
             },
