@@ -1,5 +1,6 @@
 <template>
     <div>
+<<<<<<< HEAD
         <Menu :theme="theme1" router active-name="1" collapse>
           <MenuGroup title="后退账号管理">
             <MenuItem name="/menu">
@@ -37,23 +38,71 @@
                 <Icon type="settings"></Icon>
                 <span>综合设置</span>
             </Menu-item>
+=======
+        <Menu ref="menu" active-name="1-2" :open-names="openNames" theme="dark" accordion @on-open-change="handleOpenChange">
+            <Submenu name="1">
+                <template slot="title">
+                    <Icon type="ios-analytics"></Icon>
+                    Navigation One
+                </template>
+                <MenuGroup title="Item 1">
+                    <MenuItem name="1-1">Option 1</MenuItem>
+                    <MenuItem name="1-2">Option 2</MenuItem>
+                </MenuGroup>
+                <MenuGroup title="Item 2">
+                    <MenuItem name="1-3">Option 3</MenuItem>
+                    <MenuItem name="1-4">Option 4</MenuItem>
+                </MenuGroup>
+            </Submenu>
+            <Submenu name="2">
+                <template slot="title">
+                    <Icon type="ios-filing"></Icon>
+                    Navigation Two
+                </template>
+                <MenuItem name="2-1">Option 5</MenuItem>
+                <MenuItem name="2-2">Option 6</MenuItem>
+                <Submenu name="3">
+                    <template slot="title">Submenu</template>
+                    <MenuItem name="3-1">Option 7</MenuItem>
+                    <MenuItem name="3-2">Option 8</MenuItem>
+                </Submenu>
+                <Submenu name="4">
+                    <template slot="title">Submenu</template>
+                    <MenuItem name="4-1">Option 7</MenuItem>
+                    <MenuItem name="4-2">Option 8</MenuItem>
+                </Submenu>
+            </Submenu>
+            <Submenu name="5">
+                <template slot="title">
+                    <Icon type="ios-gear"></Icon>
+                    Navigation Three
+                </template>
+                <MenuItem name="5-1">Option 9</MenuItem>
+                <MenuItem name="5-2">Option 10</MenuItem>
+                <MenuItem name="5-3">Option 11</MenuItem>
+                <MenuItem name="5-4">Option 12</MenuItem>
+            </Submenu>
+>>>>>>> eed57084949a9a38d3e40ce8c4a48a690e7fbce6
         </Menu>
-        <br>
-        <p>切换主题</p>
-        <Radio-group v-model="theme1">
-            <Radio label="light"></Radio>
-            <Radio label="dark"></Radio>
-            <Radio label="primary"></Radio>
-        </Radio-group>
-        <Input v-model="value4" icon="ios-clock-outline" placeholder="请输入..." style="width: 200px"></Input>
+        <Button @click="setOpenNames">修改展开数组</Button>
     </div>
 </template>
 <script>
     export default {
         data () {
             return {
-                theme1: 'light',
-                value4: ''
+                openNames: ['1']
+            };
+        },
+        methods: {
+            handleOpenChange (name) {
+                console.log(name)
+            },
+            setOpenNames () {
+                this.openNames = ['2', '3'];
+                this.$nextTick(() => {
+                    this.$refs.menu.updateOpened();
+                })
             }
         }
     }

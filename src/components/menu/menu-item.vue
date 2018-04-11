@@ -1,5 +1,5 @@
 <template>
-    <li :class="classes" @click.stop="handleClick">
+    <li :class="classes" @click.stop="handleClick" :style="itemStyle">
       <Tooltip v-if="!!tooltip&&parent.collapse" :popper-class="popperClass" transfer :content="tooltip" placement="right"><slot></slot></Tooltip>
       <slot v-else></slot>
     </li>
@@ -9,10 +9,11 @@
     import { findComponentUpward } from '../../utils/assist';
     import Tooltip from '../tooltip/';
     const prefixCls = 'ivu-menu';
+    import mixin from './mixin';
 
     export default {
         name: 'MenuItem',
-        mixins: [ Emitter ],
+        mixins: [ Emitter, mixin ],
         components: {
           Tooltip
         },
@@ -47,18 +48,18 @@
                         [`${prefixCls}-item-tooltip`]:!!this.tooltip&&this.parent.collapse
                     }
                 ];
+            },
+            itemStyle () {
+                return this.hasParentSubmenu && this.mode !== 'horizontal' ? {
+                    paddingLeft: 43 + (this.parentSubmenuNum - 1) * 24 + 'px'
+                } : {};
             }
         },
         methods: {
             handleClick () {
                 if (this.disabled) return;
 
-                let parent = this.$parent;
-                let name = parent.$options.name;
-                while (parent && (!name || name !== 'Submenu')) {
-                    parent = parent.$parent;
-                    if (parent) name = parent.$options.name;
-                }
+                let parent = findComponentUpward(this, 'Submenu');
 
                 if (parent) {
                     this.dispatch('Submenu', 'on-menu-item-select', this.name);
@@ -71,7 +72,7 @@
             this.$on('on-update-active-name', (name) => {
                 if (this.name === name) {
                     this.active = true;
-                    this.dispatch('Submenu', 'on-update-active-name', true);
+                    this.dispatch('Submenu', 'on-update-active-name', name);
                 } else {
                     this.active = false;
                 }

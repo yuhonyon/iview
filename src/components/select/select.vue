@@ -1,5 +1,9 @@
 <template>
-    <div :class="classes" v-clickoutside="handleClose">
+    <div
+        tabindex="0"
+        @keydown.down="handleFocus"
+        :class="classes"
+        v-clickoutside="handleClose">
         <div
             :class="selectionCls"
             ref="reference"
@@ -31,7 +35,7 @@
                 <Icon type="arrow-down-b" :class="[prefixCls + '-arrow']" v-if="!remote"></Icon>
             </slot>
         </div>
-        <transition :name="transitionName">
+        <transition name="transition-drop">
             <Drop
                 :class="dropdownCls"
                 v-show="dropVisible"
@@ -262,6 +266,10 @@
             }
         },
         methods: {
+            // open when focus on Select and press `down` key
+            handleFocus () {
+                if (!this.visible) this.toggleMenu();
+            },
             toggleMenu () {
                 if (this.disabled || this.autoComplete) {
                     return false;
@@ -564,6 +572,7 @@
             },
             resetScrollTop () {
                 const index = this.focusIndex - 1;
+                if (!this.optionInstances.length) return;
                 let bottomOverflowDistance = this.optionInstances[index].$el.getBoundingClientRect().bottom - this.$refs.dropdown.$el.getBoundingClientRect().bottom;
                 let topOverflowDistance = this.optionInstances[index].$el.getBoundingClientRect().top - this.$refs.dropdown.$el.getBoundingClientRect().top;
 
@@ -737,7 +746,8 @@
         watch: {
             value (val) {
                 this.model = val;
-                if (val === '') this.query = '';
+                // #982
+                if (val === '' || val === null) this.query = '';
             },
             label (val) {
                 this.currentLabel = val;
