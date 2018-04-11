@@ -12,6 +12,37 @@
 ### 修改记录
 
 
+
+### datepicker 组件 date和datetime模式下添加默认时间defaultTime
+| API        | 说明    |类型|  默认  |
+| :---:  | --| :----: | :----: |
+| defaultTime        | 可选最大值,可取值('now'或HH:mm:ss)   | string/date|  "00:00:00"    |
+
+
+### datepicker 组件添加最大最小值
+| API        | 说明    |类型|  默认  |
+| :---:  | --| :----: | :----: |
+| maxDate        | 可选最大值,可取值('today'或date)   | string/date|  null    |
+| minDate        | 可选最小值,可取值('today'或date)   | string/date|  null    |
+
+### modal 组件添加纵向位置
+| API        | 说明    |类型|  默认  |
+| :---:  | --| :----: | :----: |
+| position        | 纵向位置可取值("center"和数值)    | string/number|  center    |
+
+
+### datepicker 组件修改datetime切换方式
+
+
+
+### modal 组件添加纵向位置
+| API        | 说明    |类型|  默认  |
+| :---:  | --| :----: | :----: |
+| position        | 纵向位置可取值("center"和数值)    | string/number|  center    |
+
+
+
+
 ### table 组件添加全局对齐方式
 | API        | 说明    |类型|  默认  |
 | :---:  | --| :----: | :----: |

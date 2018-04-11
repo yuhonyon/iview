@@ -600,7 +600,7 @@
                       val=parser(val, this.valueFormat)||value
                     }
 
-                    if(this.defaultTime&&(this.type==='date'||this.type==='range')&&!/[hHms]/.test(this.format)){
+                    if(val&&this.defaultTime&&(this.type==='date'||this.type==='range')&&!/[hHms]/.test(this.format)){
                       if(this.defaultTime==='now'){
                         let now=new Date();
                         val=new Date(val.setHours(now.getHours(),now.getMinutes(),now.getSeconds()))
