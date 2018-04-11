@@ -1,12 +1,15 @@
 <template>
     <div :class="classes" @mousedown.prevent>
-        <div :class="[prefixCls + '-sidebar']" v-if="shortcuts.length">
+        <div v-if="showTime" :class="[prefixCls + '-header-input-wrapper']">
+          <input size="small" :class="['ivu-input','ivu-input-small']" @click="handleToggleTime('date')" :value="dateStr"></input><input size="small" :value="timeStr" :class="['ivu-input','ivu-input-small']" @click="handleToggleTime('time')" ></input>
+        </div>
+        <div :class="[prefixCls + '-sidebar']" v-if="shortcuts.length" >
             <div
                 :class="[prefixCls + '-shortcut']"
                 v-for="shortcut in shortcuts"
                 @click="handleShortcutClick(shortcut)">{{ shortcut.text }}</div>
         </div>
-        <div :class="[prefixCls + '-body']">
+        <div :class="[prefixCls + '-body']" >
             <div :class="[datePrefixCls + '-header']" v-show="currentView !== 'time'">
                 <span
                     :class="iconBtnCls('prev', '-double')"
@@ -35,6 +38,8 @@
                     :date="date"
                     :value="value"
                     :selection-mode="selectionMode"
+                    :min-date="minDate"
+                    :max-date="maxDate"
                     :disabled-date="disabledDate"
                     @on-pick="handleDatePick"
                     @on-pick-click="handlePickClick"></date-table>
@@ -65,9 +70,8 @@
             </div>
             <Confirm
                 v-if="confirm"
-                :show-time="showTime"
-                :is-time="isTime"
-                @on-pick-toggle-time="handleToggleTime"
+
+
                 @on-pick-clear="handlePickClear"
                 @on-pick-success="handlePickSuccess"></Confirm>
         </div>
@@ -81,10 +85,10 @@
     import TimePicker from './time.vue';
     import Confirm from '../base/confirm.vue';
     import datePanelLabel from './date-panel-label.vue';
-
+    import iInput from '../../input'
     import Mixin from './mixin';
     import Locale from '../../../mixins/locale';
-
+    import { formatDate, parseDate } from './../util';
     import { initTimeDate, siblingMonth, formatDateLabels } from '../util';
 
     const prefixCls = 'ivu-picker-panel';
@@ -93,7 +97,7 @@
     export default {
         name: 'DatePicker',
         mixins: [ Mixin, Locale ],
-        components: { Icon, DateTable, YearTable, MonthTable, TimePicker, Confirm, datePanelLabel },
+        components: { Icon, DateTable, YearTable, MonthTable, TimePicker, Confirm, datePanelLabel ,iInput},
         data () {
             return {
                 prefixCls: prefixCls,
@@ -105,14 +109,23 @@
                 showTime: false,
                 selectionMode: 'day',
                 disabledDate: '',
+                maxDate: null,
+                minDate: null,
                 year: null,
                 month: null,
                 confirm: false,
                 isTime: false,
-                format: 'yyyy-MM-dd'
+                format: 'yyyy-MM-dd HH:mm:ss',
+                defaultTime:"00:00:00"
             };
         },
         computed: {
+            dateStr(){
+              return  formatDate(this.value,this.format.replace(/h.*$/i,''))
+            },
+            timeStr(){
+              return  formatDate(this.value,/[Hhms]+/.test(this.format)?this.format.replace(/^[^h]*/i,''):'HH:mm:ss')
+            },
             classes () {
                 return [
                     `${prefixCls}-body-wrapper`,
@@ -148,6 +161,8 @@
                 }
                 if (this.showTime) this.$refs.timePicker.value = newVal;
             },
+
+
             date (val) {
                 if (this.showTime) this.$refs.timePicker.date = val;
             },
@@ -196,14 +211,9 @@
                 this.date = siblingMonth(this.date, dir);
                 this.setMonthYear(this.date);
             },
-            handleToggleTime () {
-                if (this.currentView === 'date') {
-                    this.currentView = 'time';
-                    this.isTime = true;
-                } else if (this.currentView === 'time') {
-                    this.currentView = 'date';
-                    this.isTime = false;
-                }
+            handleToggleTime (type) {
+                this.currentView = type;
+                this.isTime=type==='time';
             },
             handleYearPick(year, close = true) {
                 this.year = year;
@@ -231,14 +241,35 @@
                     this.$emit('on-pick', value);
                 }
             },
-            handleDatePick (value) {
+            handleDatePick (value,hasTime) {
+
                 if (this.selectionMode === 'day') {
+
+                  if(!hasTime){
+
+                    let oldDate=this.value;
+                    if(typeof this.value!=='object'){
+                      oldDate=parseDate(this.value,this.format)
+                      if(!oldDate){
+                        oldDate=(this.defaultTime&&this.defaultTime!=='now')?new Date('2000-12-12 '+this.defaultTime):new Date();
+                      }else{
+                        oldDate=new Date(oldDate)
+                      }
+                    }
+                    if(!/[Hhms]+/.test(this.format)&&this.defaultTime){
+                      oldDate=this.defaultTime==='now'?new Date():new Date('2000-12-12 '+this.defaultTime);
+                    }
+
+                    value= new Date(value.setHours(oldDate.getHours(),oldDate.getMinutes(),oldDate.getSeconds()))
+                    console.log(oldDate.getHours(),value.getHours())
+                  }
+
                     this.$emit('on-pick', new Date(value.getTime()));
                     this.date = new Date(value);
                 }
             },
             handleTimePick (date) {
-                this.handleDatePick(date);
+                this.handleDatePick(date,true);
             }
         },
         mounted () {
@@ -259,3 +290,12 @@
         }
     };
 </script>
+<style lang="less">
+.ivu-picker-panel-header-input-wrapper{
+  padding: 10px;
+  >input{
+    width:88px;
+    margin:0 5px;
+  }
+}
+</style>

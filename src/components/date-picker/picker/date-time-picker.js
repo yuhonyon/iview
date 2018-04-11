@@ -1,13 +1,13 @@
 import Vue from 'vue';
 import Picker from '../picker.vue';
-import DateTimePanel from '../panel/date-time.vue';
+import DatePanel from '../panel/date.vue';
 import DateRangePanel from '../panel/date-range.vue';
 
 const getPanel = function (type) {
     if (type === 'daterange' || type === 'datetimerange') {
         return DateRangePanel;
     }
-    return DateTimePanel;
+    return DatePanel;
 };
 
 import { oneOf } from '../../../utils/assist';
@@ -17,11 +17,11 @@ export default {
     props: {
         type: {
             validator (value) {
-                return oneOf(value, ['year', 'month', 'date', 'daterange', 'datetime', 'datetimerange']);
+                return oneOf(value, ['datetime', 'datetimerange']);
             },
-            default: 'date'
+            default: 'datetime'
         },
-        
+
         value: {}
     },
     watch: {

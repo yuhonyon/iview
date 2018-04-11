@@ -220,18 +220,20 @@
                 }
 
               if(maxDate){
-                if (maxDate instanceof Date) {
-                  if (date.getTime()>maxDate.getTime())return true
-                }else{
-                  if (date.getTime()>new Date(maxDate).getTime()) return true
+                if (!maxDate instanceof Date) {
+                  maxDate=new Date(maxDate)
                 }
+                maxDate=clearHours(maxDate)
+                if (date.getTime()>new Date(maxDate).getTime()) return true
+
               }
               if(minDate){
-                if (minDate instanceof Date) {
-                  if (date.getTime()<minDate.getTime())return true
-                }else{
-                  if (date.getTime()<new Date(minDate).getTime()) return true
+                if (!minDate instanceof Date) {
+                  minDate=new Date(minDate)
                 }
+                minDate=clearHours(minDate)
+                if (date.getTime()<new Date(minDate).getTime()) return true
+
               }
 
               return false

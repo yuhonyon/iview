@@ -1,6 +1,6 @@
 <template>
     <div :class="classes" @mousedown.prevent>
-        <div :class="[prefixCls + '-header-input-wrapper']">
+        <div v-if="showTime" :class="[prefixCls + '-header-input-wrapper']">
           <input size="small" :class="['ivu-input','ivu-input-small']" @click="handleToggleTime('date')" :value="dateStr"></input><input size="small" :value="timeStr" :class="['ivu-input','ivu-input-small']" @click="handleToggleTime('time')" ></input>
         </div>
         <div :class="[prefixCls + '-sidebar']" v-if="shortcuts.length" >
@@ -162,7 +162,7 @@
                 if (this.showTime) this.$refs.timePicker.value = newVal;
             },
 
-      
+
             date (val) {
                 if (this.showTime) this.$refs.timePicker.date = val;
             },
@@ -252,7 +252,7 @@
                     if(typeof this.value!=='object'){
                       oldDate=parseDate(this.value,this.format)
                       if(!oldDate){
-                        oldDate=new Date('2000-12-12 '+this.defaultTime);
+                        oldDate=this.defaultTime?new Date('2000-12-12 '+this.defaultTime):new Date();
                       }else{
                         oldDate=new Date(oldDate)
                       }
@@ -284,6 +284,7 @@
                 this.$refs.timePicker.format = this.format;
                 this.$refs.timePicker.showDate = true;
             }
+            console.log(this)
         }
     };
 </script>

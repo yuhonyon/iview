@@ -157,7 +157,7 @@
             },
             defaultTime:{
                 type:String,
-                default: '00:00:00'
+                default: "00:00:00"
             },
             maxDate:{
                 default: null
@@ -165,10 +165,8 @@
             minDate:{
                 default: null
             },
-            outputFormat:{
-                validator (value) {
-                    return oneOf(value, ['date', 'format', 'number']);
-                },
+            valueFormat:{
+                type:String,
                 default:'date'
             },
             readonly: {
@@ -316,7 +314,6 @@
                 this.visible = false;
             },
             handleInputChange (event) {
-
                 const oldValue = this.visualValue;
                 const value = event.target.value;
 
@@ -464,6 +461,7 @@
             },
             showPicker () {
 
+
                 if (!this.picker) {
                     let isConfirm = this.confirm;
                     const type = this.type;
@@ -476,9 +474,8 @@
                     this.picker.value = this.internalValue;
                     this.picker.confirm = isConfirm;
                     this.picker.selectionMode = this.selectionMode;
-                    this.picker.defaultTime=this.defaultTime;
-                    this.picker.maxDate=this.maxDate;
-                    this.picker.minDate=this.minDate;
+
+
                     if (this.format) this.picker.format = this.format;
 
                     // TimePicker
@@ -509,6 +506,12 @@
                     });
                     this.picker.$on('on-pick-click', () => this.disableClickOutSide = true);
                 }
+                if(this.type==='date'||this.type==='datetime'){
+                  this.picker.maxDate=this.maxDate;
+                  this.picker.minDate=this.minDate;
+                  this.picker.defaultTime=this.defaultTime;
+                }
+
                 if (this.internalValue instanceof Date) {
                     this.picker.date = new Date(this.internalValue.getTime());
                 } else {
@@ -593,13 +596,25 @@
                         }
 
                     }
+                    if(val===false){
+                      val=parser(val, this.valueFormat)||value
+                    }
+
+                    if(this.defaultTime&&(this.type==='date'||this.type==='range')&&!/[hHms]/.test(this.format)){
+                      if(this.defaultTime==='now'){
+                        let now=new Date();
+                        val=new Date(val.setHours(now.getHours(),now.getMinutes(),now.getSeconds()))
+                      }else{
+                        val=new Date(val.setHours(...this.defaultTime.split(':')))
+                      }
+                    }
                     this.internalValue = val;
 
 
 
-                    if(!value||this.outputFormat==='date'){
+                    if(!value||this.valueFormat==='date'){
                       this.outputValue=val
-                    }else if(this.outputFormat==='number'){
+                    }else if(this.valueFormat==='number'){
                       if(isRange&&typeof value[0]!=='number'&&typeof value[1]!=='number'){
                         this.outputValue=[Date.parse(value[0]),Date.parse(value[1])]
                       }else if(!/range$/.test(this.type)&&typeof value!=='number'){
@@ -608,7 +623,7 @@
                         this.outputValue=value;
                       }
 
-                    }else if(this.outputFormat==='format'){
+                    }else if(this.valueFormat==='format'){
                       if(isRange&&typeof value[0]!=='string'&&typeof value[1]!=='string'){
                         this.outputValue=this.visualValue.split(RANGE_SEPARATOR);
                       }else if(!/range$/.test(this.type)&&typeof value!=='string'){
@@ -616,22 +631,21 @@
                       }else{
                         this.outputValue=value;
                       }
+                    }else if(/[yMWdHhmsaA]/.test(this.valueFormat)){
+                      if(isRange){
+                        this.outputValue=[formatDate(val[0],this.valueFormat),formatDate(val[1],this.valueFormat)]
+                      }else {
+                        this.outputValue=formatDate(val,this.valueFormat)
+                      }
                     }else{
                       this.outputValue=value;
                     }
 
 
+                    this.$emit('input',this.outputValue);
+                    return
 
 
-                    //待删除
-                    if(index>-1000){
-                      index--;
-                        if(index<-100){
-                          console.log(index)
-                        }
-                        this.$emit('input',this.outputValue);
-                      return
-                    }
                 }
             },
             open (val) {
