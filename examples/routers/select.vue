@@ -725,60 +725,12 @@
         <Select v-model="model10" multiple style="width:260px">
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
-        <Select v-model="m2" @on-select="aaa">
-
-          <Option v-for="i in bbb" :key="i" :value="i">{{i||"全部"}}</Option>
-        </Select>
-        <button @click="m2=''">asdfdf</button>
-        <Select v-model="m2"  @on-select="aaa">
-
-          <Option v-for="i in bbb2" :key="i" :value="i">{{i||'全部'}}</Option>
-        </Select>
     </div>
 </template>
 <script>
     export default {
-        mounted() {
-          //do something after mounting vue instance
-
-        },
         data () {
             return {
-<<<<<<< HEAD
-              m2:'',
-              m22:[],
-              bbb:[1,2,3,4,5],
-              bbb2:["",1,2,3,4,5],
-                model13: '',
-                loading1: false,
-                options1: [],
-                model14: [],
-                loading2: false,
-                options2: [],
-                list: ['a', 'b', 'c']
-            }
-        },
-        methods: {
-          aaa(a){
-            console.log(a,this.m2)
-          },
-            remoteMethod2 (query) {
-                if (query !== '') {
-                    this.loading2 = true;
-                    setTimeout(() => {
-                        this.loading2 = false;
-                        const list = this.list.map(item => {
-                            return {
-                                value: item,
-                                label: item
-                            };
-                        });
-                        this.options2 = list.filter(item => item.label.toLowerCase().indexOf(query.toLowerCase()) > -1);
-                    }, 200);
-                } else {
-                    this.options2 = [];
-                }
-=======
                 cityList: [
                     {
                         value: 'New York',
@@ -808,7 +760,6 @@
                 model1: '',
                 model10: [],
                 model11: []
->>>>>>> eed57084949a9a38d3e40ce8c4a48a690e7fbce6
             }
         }
     }

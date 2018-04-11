@@ -1,13 +1,7 @@
 {
-<<<<<<< HEAD
   "name": "iviewplus",
-  "version": "1.1.17",
-  "title": "iView plus",
-=======
-  "name": "iview",
-  "version": "2.13.0",
+  "version": "1.2.0",
   "title": "iView",
->>>>>>> eed57084949a9a38d3e40ce8c4a48a690e7fbce6
   "description": "A high quality  UI components Library with Vue.js",
   "homepage": "http://www.iviewui.com",
   "keywords": [
@@ -25,12 +19,8 @@
     "src"
   ],
   "scripts": {
-<<<<<<< HEAD
     "dev": "webpack-dev-server --content-base test/ --open --inline --hot --compress --history-api-fallback --port 9090 --config build/webpack.dev.config.js",
-=======
-    "dev": "webpack-dev-server --content-base test/ --open --inline --hot --compress --history-api-fallback --port 8081 --config build/webpack.dev.config.js",
-    "dev:s": "webpack-dev-server --content-base test/ --open --inline --hot --compress --history-api-fallback --port 8081 --host 0.0.0.0 --config build/webpack.dev.config.js",
->>>>>>> eed57084949a9a38d3e40ce8c4a48a690e7fbce6
+    "dev:s": "webpack-dev-server --content-base test/ --open --inline --hot --compress --history-api-fallback --port 9090 --host 0.0.0.0 --config build/webpack.dev.config.js",
     "dist:style": "gulp --gulpfile build/build-style.js",
     "dist:dev": "webpack --config build/webpack.dist.dev.config.js",
     "dist:prod": "webpack --config build/webpack.dist.prod.config.js",

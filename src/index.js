@@ -15,7 +15,7 @@ import Collapse from './components/collapse';
 import ColorPicker from './components/color-picker';
 import Content from './components/content';
 import DatePicker from './components/date-picker';
-import DateTimePicker from './components/date-time-picker';
+// import DateTimePicker from './components/date-time-picker';
 import Dropdown from './components/dropdown';
 import Footer from './components/footer';
 import Form from './components/form';
@@ -64,7 +64,7 @@ const components = {
     Avatar,
     BackTop,
     Badge,
-    DateTimePicker,
+    // DateTimePicker,
     Breadcrumb,
     BreadcrumbItem: Breadcrumb.Item,
     Button,

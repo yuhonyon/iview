@@ -158,18 +158,10 @@
 <!--</script>-->
 
 <template>
-  <div>
-  
-
-    <Tabs router  value="button">
-      <TabPane  name="/tabs/button" :key="2" :label="'标签' + 2">1212</TabPane>
-        <TabPane  name="/tabs/form" :key="1" :label="'标签' + 1">12</TabPane>
-        <TabPane  name="/tabs/button" :key="2" :label="'标签' + 2">1212</TabPane>
+    <Tabs type="card">
+        <TabPane v-for="tab in tabs" :key="tab" :label="'标签' + tab">标签{{ tab }}</TabPane>
         <Button type="ghost" @click="handleTabsAdd" size="small" slot="extra">增加</Button>
     </Tabs>
-
-  </div>
-
 </template>
 <script>
     export default {
@@ -185,3 +177,5 @@
         }
     }
 </script>
+
+

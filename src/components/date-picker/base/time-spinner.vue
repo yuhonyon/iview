@@ -1,6 +1,6 @@
 <template>
     <div :class="classes">
-        <div :class="[prefixCls+ '-list']" ref="hours"  @scroll="handleScroll">
+        <div :class="[prefixCls+ '-list']" ref="hours">
             <ul :class="[prefixCls + '-ul']">
                 <li :class="getCellCls(item)" v-for="item in hoursList" v-show="!item.hide" @click="handleClick('hours', item)">{{ formatTime(item.text) }}</li>
             </ul>
@@ -136,10 +136,6 @@
             }
         },
         methods: {
-          handleScroll(e){
-
-          },
-
             getCellCls (cell) {
                 return [
                     `${prefixCls}-cell`,
@@ -158,7 +154,7 @@
             },
             scroll (type, index) {
                 const from = this.$refs[type].scrollTop;
-                const to = 24 * this.getScrollIndex(type, index)-this.$refs[type].clientHeight/2+108;
+                const to = 24 * this.getScrollIndex(type, index);
                 scrollTop(this.$refs[type], from, to, 500);
             },
             getScrollIndex (type, index) {
@@ -175,13 +171,7 @@
                 const times = ['hours', 'minutes', 'seconds'];
                 this.$nextTick(() => {
                     times.forEach(type => {
-                        let index=this[`${type}List`].findIndex(obj => obj.text === this[type])
-
-                        if(index===-1){
-                          this.$refs[type].scrollTop = 24 * this.getScrollIndex(type, 0)-this.$refs[type].clientHeight/2+168;
-                        }else{
-                          this.$refs[type].scrollTop = 24 * index ;
-                        }
+                        this.$refs[type].scrollTop = 24 * this[`${type}List`].findIndex(obj => obj.text == this[type]);
                     });
                 });
             },
@@ -208,16 +198,3 @@
         }
     };
 </script>
-<style>
-.ivu-time-picker-cells-ul{
-  padding: 96px 0 96px 0!important;
-}
-.ivu-time-picker-cells-cell-selected{
-  font-weight: bold;
-}
-
-.ivu-time-picker-cells{
-  position: relative;
-}
-
-</style>

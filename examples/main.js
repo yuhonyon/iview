@@ -6,8 +6,8 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import App from './app.vue';
 import iView from '../src/index';
-import locale from '../src/locale/lang/en-US';
-// import locale from '../src/locale/lang/zh-CN';
+// import locale from '../src/locale/lang/en-US';
+import locale from '../src/locale/lang/zh-CN';
 
 Vue.use(VueRouter);
 Vue.use(iView, { locale });
@@ -109,17 +109,7 @@ const router = new VueRouter({
         },
         {
             path: '/tabs',
-<<<<<<< HEAD
-            component: require('./routers/tabs.vue'),
-            children:[
-                {path: 'form',
-                    component: require('./routers/form.vue'),},
-                {path: 'button',
-                    component: require('./routers/menu.vue'),}
-            ]
-=======
             component: (resolve) => require(['./routers/tabs.vue'], resolve)
->>>>>>> eed57084949a9a38d3e40ce8c4a48a690e7fbce6
         },
         {
             path: '/tooltip',
