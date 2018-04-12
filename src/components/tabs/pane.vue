@@ -39,6 +39,7 @@
             }
         },
         watch: {
+
             name (val) {
                 this.currentName = val;
                 this.updateNav();

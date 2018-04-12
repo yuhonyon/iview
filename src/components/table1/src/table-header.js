@@ -120,9 +120,9 @@ export default {
                     {
                       column.sortable
                         ? <span class="caret-wrapper" on-click={ ($event) => this.handleSortClick($event, column) }>
-                            <i class="sort-caret ascending ivu-icon ivu-icon-android-arrow-dropup" on-click={ ($event) => this.handleSortClick($event, column, 'ascending') }>
+                            <i class="sort-caret ascending" on-click={ ($event) => this.handleSortClick($event, column, 'ascending') }>
                             </i>
-                            <i class="sort-caret descending ivu-icon ivu-icon-android-arrow-dropdown" on-click={ ($event) => this.handleSortClick($event, column, 'descending') }>
+                            <i class="sort-caret descending" on-click={ ($event) => this.handleSortClick($event, column, 'descending') }>
                             </i>
                           </span>
                         : ''

@@ -208,7 +208,21 @@
             },
             updateStatus () {
                 const tabs = this.getTabs();
-                tabs.forEach(tab => tab.show = (tab.currentName === this.activeKey) || this.animated);
+                tabs.forEach(tab => {
+                  let isActive=tab.currentName === this.activeKey;
+                  if(tab.heightTimer){
+                    clearTimeout(tab.heightTimer)
+                  }
+                  if(isActive){
+                    tab.$el.style.height=''
+                  }else{
+                    tab.heightTimer=setTimeout(()=>{
+                      tab.$el.style.height=0
+                    },300)
+                  }
+                  tab.show=isActive||this.animated;
+                });
+
             },
             tabCls (item) {
                 return [
