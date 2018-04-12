@@ -46,7 +46,10 @@
                     </div>
                     <div :class="[prefixCls + '-confirm']">
                         <span :class="[prefixCls + '-confirm-color']">{{ formatColor }}</span>
-                        <Confirm @on-pick-success="handleSuccess" @on-pick-clear="handleClear"></Confirm>
+                        <div :class="[prefixCls + '-confirm-btn']">
+                          <i-button size="small" type="text" @click.native="handleClear">清除</i-button>
+                          <i-button size="small" type="primary" @click.native="handleSuccess">确定</i-button>
+                        </div>
                     </div>
                 </div>
             </Drop>
@@ -55,13 +58,12 @@
 </template>
 <script>
     import tinycolor from 'tinycolor2';
-
+    import iButton from '../button/button.vue';
     import clickoutside from '../../directives/clickoutside';
     import TransferDom from '../../directives/transfer-dom';
 
     import Drop from '../../components/select/dropdown.vue';
     import RecommendColors from './recommend-colors.vue';
-    import Confirm from '../date-picker/base/confirm.vue';
     import Saturation from './saturation.vue';
     import Hue from './hue.vue';
     import Alpha from './alpha.vue';
@@ -124,7 +126,7 @@
     export default {
         name: 'ColorPicker',
         mixins: [ Emitter ],
-        components: { Drop, Confirm, RecommendColors, Saturation, Hue, Alpha },
+        components: { Drop, RecommendColors, Saturation, Hue, Alpha,iButton },
         directives: { clickoutside, TransferDom },
         props: {
             value: {

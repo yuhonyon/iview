@@ -14,7 +14,7 @@ import Circle from './components/circle';
 import Collapse from './components/collapse';
 import ColorPicker from './components/color-picker';
 import Content from './components/content';
-import DatePicker from './components/date-picker';
+import DatePicker from './components/date-picker2';
 // import DateTimePicker from './components/date-time-picker';
 import Dropdown from './components/dropdown';
 import Footer from './components/footer';

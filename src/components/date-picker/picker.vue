@@ -85,6 +85,20 @@
         components: { iInput, Drop },
         directives: { clickoutside, TransferDom },
         props: {
+            defaultTime:{
+                type:String,
+                default: ''
+            },
+            maxDate:{
+                default: null
+            },
+            minDate:{
+                default: null
+            },
+            valueFormat:{
+                type:String,
+                default:'date'
+            },
             format: {
                 type: String
             },
@@ -161,7 +175,7 @@
                 default: () => []
             },
             value: {
-                type: [Date, String, Array]
+                type: [Date, String, Array,Number]
             },
             options: {
                 type: Object,
@@ -185,6 +199,22 @@
             };
         },
         computed: {
+            publicFormatValue(){
+              return this.publicVModelValue
+              if(!this.publicVModelValue){
+                return null;
+              }
+              console.log(this.publicVModelValue)
+              return this.publicVModelValue instanceof Date?this.publicVModelValue.getTime():new Date(this.publicVModelValue).getTime()
+              if(this.valueFormat==='date'){
+                return this.publicVModelValue
+              }else if(this.valueFormat==='number'){
+                let _publicVModelValue=this.publicVModelValue
+
+                console.log(_publicVModelValue,1111)
+                return _publicVModelValue.map(date=>date.getTime())
+              }
+            },
             publicVModelValue(){
                 if (this.multiple){
                     return this.internalValue.slice();
@@ -331,7 +361,7 @@
                     if (!val){
                         val = [null, null];
                     } else {
-                        if (typeof val === 'string') {
+                        if (typeof val === 'string'||typeof val === 'number') {
                             val = parser(val, format);
                         } else if (type === 'timerange') {
                             val = parser(val, format).map(v => v || '');
@@ -339,14 +369,14 @@
                             const [start, end] = val;
                             if (start instanceof Date && end instanceof Date){
                                 val = val.map(date => new Date(date));
-                            } else if (typeof start === 'string' && typeof end === 'string'){
+                            } else if ((typeof start === 'string'||typeof start === 'number') && (typeof end === 'string'||end==='number')){
                                 val = parser(val.join(RANGE_SEPARATOR), format);
                             } else if (!start || !end){
                                 val = [null, null];
                             }
                         }
                     }
-                } else if (typeof val === 'string' && type.indexOf('time') !== 0){
+                } else if ((typeof val === 'string'||typeof val === 'number') && type.indexOf('time') !== 0){
                     val = parser(val, format) || null;
                 }
 
@@ -407,7 +437,7 @@
             type(type){
                 this.onSelectionModeChange(type);
             },
-            publicVModelValue(now, before){
+            publicFormatValue(now, before){
                 const newValue = JSON.stringify(now);
                 const oldValue = JSON.stringify(before);
                 const shouldEmitInput = newValue !== oldValue || typeof now !== typeof before;
