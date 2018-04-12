@@ -215,14 +215,16 @@
                   }
                   if(isActive){
                     tab.$el.style.height=''
+                    tab.$el.style.visibility='visible'
                   }else{
+
                     tab.heightTimer=setTimeout(()=>{
                       tab.$el.style.height=0
+                      tab.$el.style.visibility='hidden'
                     },300)
                   }
                   tab.show=isActive||this.animated;
                 });
-
             },
             tabCls (item) {
                 return [
