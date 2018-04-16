@@ -217,9 +217,10 @@
                 if (this.number) value = Number.isNaN(Number(value)) ? value : Number(value);
                 this.$emit('input', value);
                 this.setCurrentValue(value);
-                this.$emit('on-change', event);
+
             },
             handleChange (event) {
+                this.$emit('on-change', event);
                 this.$emit('on-input-change', event);
             },
             setCurrentValue (value) {

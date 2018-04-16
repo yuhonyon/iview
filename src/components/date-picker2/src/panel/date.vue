@@ -19,7 +19,7 @@
         <div class="el-picker-panel__body">
           <div class="el-date-picker__time-header" v-if="showTime">
             <span class="el-date-picker__editor-wrap">
-              <el-input
+              <i-input
                 :placeholder="t('i.datepicker.selectDate')"
                 :value="visibleDate"
                 size="small"
@@ -27,7 +27,7 @@
                 @on-change="handleVisibleDateChange" />
             </span>
             <span class="el-date-picker__editor-wrap" v-clickoutside="() => timePickerVisible = false">
-              <el-input
+              <i-input
                 ref="input"
                 @on-focus="timePickerVisible = true"
                 :placeholder="t('i.datepicker.selectTime')"
@@ -160,7 +160,7 @@
   } from '../util';
   import Clickoutside from '../../../../utils/clickoutside';
   import Locale from '../../../../mixins/locale';
-  import ElInput from '../../../input';
+  import iInput from '../../../input';
   import ElButton from '../../../button';
   import TimePicker from './time';
   import YearTable from '../basic/year-table';
@@ -417,8 +417,8 @@
         }
       },
 
-      handleVisibleTimeChange(value) {
-        const time = parseDate(value, this.timeFormat);
+      handleVisibleTimeChange(event) {
+        const time = parseDate(event.target.value, this.timeFormat);
         if (time) {
           this.date = modifyDate(time, this.year, this.month, this.monthDate);
           this.userInputTime = null;
@@ -428,8 +428,8 @@
         }
       },
 
-      handleVisibleDateChange(value) {
-        const date = parseDate(value, this.dateFormat);
+      handleVisibleDateChange(event) {
+        const date = parseDate(event.target.value, this.dateFormat);
         if (date) {
           if (typeof this.disabledDate === 'function' && this.disabledDate(date)) {
             return;
@@ -451,7 +451,7 @@
     },
 
     components: {
-      TimePicker, YearTable, MonthTable, DateTable, ElInput, ElButton
+      TimePicker, YearTable, MonthTable, DateTable, iInput, ElButton
     },
 
     data() {

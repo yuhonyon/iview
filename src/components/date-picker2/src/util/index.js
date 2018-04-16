@@ -233,6 +233,6 @@ export const extractDateFormat = function(format) {
 
 export const extractTimeFormat = function(format) {
     return format
-    .replace(/\W?D{1,2}|\W?Do|\W?d{1,4}|\W?M{1,4}|\W?y{2,4}/g, '')
+    .replace(extractDateFormat(format), '')
     .trim();
 };
