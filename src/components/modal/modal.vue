@@ -3,7 +3,7 @@
         <transition :name="transitionNames[1]">
             <div :class="maskClasses" v-show="visible" @click="mask"></div>
         </transition>
-        <div :class="wrapClasses" @click="handleWrapClick" :style="{top:typeof position==='number'?position:0}">
+        <div :class="wrapClasses" @click="handleWrapClick" :style="{'top':typeof position==='number'?position:0,'zIndex':zIndex}">
             <transition :name="transitionNames[0]" @after-leave="animationFinish">
                 <div :class="classes" :style="mainStyles" v-show="visible">
                     <div :class="[prefixCls + '-content']">
@@ -35,7 +35,7 @@
     import ScrollbarMixins from './mixins-scrollbar';
 
     const prefixCls = 'ivu-modal';
-
+    let zIndex=2000;
     export default {
         name: 'Modal',
         mixins: [ Locale, Emitter, ScrollbarMixins ],
@@ -107,6 +107,7 @@
                 wrapShow: false,
                 showHead: true,
                 buttonLoading: false,
+                zIndex:2000,
                 visible: this.value
             };
         },
@@ -228,6 +229,8 @@
                     }, 300);
                 } else {
                     if (this.timer) clearTimeout(this.timer);
+                    zIndex++;
+                    this.zIndex=zIndex;
                     this.wrapShow = true;
                     if (!this.scrollable) {
                         this.addScrollEffect();
