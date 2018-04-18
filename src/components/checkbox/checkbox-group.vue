@@ -40,8 +40,7 @@
                 return [
                     `${prefixCls}`,
                     {
-                        [`ivu-checkbox-${this.size}`]: !!this.size,
-                        [`${prefixCls}-disabled`]: this.disabled,
+                        [`ivu-checkbox-${this.size}`]: !!this.size
                     }
                 ];
             }
@@ -56,7 +55,7 @@
                     const { value } = this;
                     this.childrens.forEach(child => {
                         child.model = value;
-
+                        child.groupDisabled=this.disabled;
                         if (update) {
                             child.currentValue = value.indexOf(child.label) >= 0;
                             child.group = true;
@@ -72,6 +71,9 @@
             }
         },
         watch: {
+            disable(){
+              this.updateModel();
+            },
             value () {
                 this.updateModel(true);
             }

@@ -1,7 +1,7 @@
 <template>
     <div v-transfer-dom :data-transfer="transfer">
         <transition :name="transitionNames[1]">
-            <div :class="maskClasses" v-show="visible" @click="mask"></div>
+            <div :class="maskClasses" :style="{'zIndex':zIndex}" v-show="visible" @click="mask"></div>
         </transition>
         <div :class="wrapClasses" @click="handleWrapClick" :style="{'top':typeof position==='number'?position:0,'zIndex':zIndex}">
             <transition :name="transitionNames[0]" @after-leave="animationFinish">
@@ -35,7 +35,7 @@
     import ScrollbarMixins from './mixins-scrollbar';
 
     const prefixCls = 'ivu-modal';
-    let zIndex=2000;
+    let zIndex=1000;
     export default {
         name: 'Modal',
         mixins: [ Locale, Emitter, ScrollbarMixins ],
@@ -107,7 +107,7 @@
                 wrapShow: false,
                 showHead: true,
                 buttonLoading: false,
-                zIndex:2000,
+                zIndex:1000,
                 visible: this.value
             };
         },

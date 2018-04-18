@@ -4,8 +4,8 @@
         <Radio size="default" v-model="single">Radio</Radio>
         <Radio size="small" v-model="single">Radio</Radio>
         <br><br>
-        <Radio-group v-model="phone">
-            <Radio label="apple">
+        <Radio-group v-model="phone" :disabled="false">
+            <Radio label="apple" disabled>
                 <Icon type="social-apple"></Icon>
                 <span>Apple</span>
             </Radio>
