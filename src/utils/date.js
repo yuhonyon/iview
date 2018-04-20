@@ -280,6 +280,10 @@
       throw new Error('Invalid format in fecha.parse');
     }
 
+    if(typeof dateStr==='number'){
+      return new Date(dateStr)
+    }
+
     format = fecha.masks[format] || format;
 
     // Avoid regular expression denial of service, fail early for really long strings

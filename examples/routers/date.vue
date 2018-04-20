@@ -23,11 +23,13 @@
     <DatePicker
       style="width:200px;"
       v-model="value11"
-      :min-date="value10"
+      :max-date="1524153600000"
+
       type="datetime"
       placeholder="选择日期"
+      value-format="number"
       format="yyyy 年 MM 月 dd 日 HH:mm:ss">
-    </DatePicker>
+    </DatePicker>{{value11}}
   </div>
   <div class="block">
     <span class="demonstration">使用 value-format</span>

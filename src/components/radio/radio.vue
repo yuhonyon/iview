@@ -38,7 +38,7 @@
                 default: false
             },
             label: {
-                type: [String, Number]
+                type: [String, Number,Boolean]
             },
             disabled: {
                 type: Boolean,
