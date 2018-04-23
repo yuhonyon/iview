@@ -6,7 +6,8 @@ const prefixKey = 'ivu_message_key_';
 
 const defaults = {
     top: 24,
-    duration: 1.5
+    duration: 1.5,
+    transitionName:'move-up'
 };
 
 let messageInstance;
@@ -43,7 +44,7 @@ function notice (content = '', duration = defaults.duration, type, onClose = fun
         name: `${prefixKey}${name}`,
         duration: duration,
         styles: {},
-        transitionName: 'move-up',
+        transitionName: defaults.transitionName,
         content: `
             <div class="${prefixCls}-custom-content ${prefixCls}-${type}">
                 <i class="${iconPrefixCls} ${iconPrefixCls}-${iconType}${loadCls}"></i>
@@ -98,6 +99,9 @@ export default {
         }
         if (options.duration || options.duration === 0) {
             defaults.duration = options.duration;
+        }
+        if (options.transitionName) {
+            defaults.transitionName = options.transitionName;
         }
     },
     destroy () {
