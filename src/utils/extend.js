@@ -38,7 +38,7 @@ const extend = function() {
                     continue;
                 }
 
-                if (deep && copy && (typeof copy === 'object' || (copyIsArray = Array.isArray(copy)))) {
+                if (deep && copy && (typeof copy === 'object' || (copyIsArray = Array.isArray(copy)))&&!(copy instanceof RegExp)) {
                     if (copyIsArray) {
                         copyIsArray = false;
                         clone = src && Array.isArray(src)

@@ -11,7 +11,9 @@
 
 ### 修改记录
 
+### From 验证 解决正则失效bug
 
+### RadioGroup CheckboxGroup 添加disabled
 
 ### datepicker 组件 date和datetime模式下添加默认时间defaultTime
 | API        | 说明    |类型|  默认  |
@@ -89,7 +91,7 @@ bug描述:on-change事件触发时机错误,value未改变
 ### datePicker&timePicker 添加输出格式api
 | API        | 说明    |类型|  默认  |
 | :---:  | --| :----: | :----: |
-| outputFormat        | 输出格式'date'(时间戳), 'format'(同显示格式), 'number'(毫秒数)    |string |  date  |
+| value-format        | 输出格式'date'(时间戳), 'format'(同显示格式), 'number'(毫秒数)    |string |  date  |
 
 ### tabs组件添加router功能
 | API        | 说明    |类型|  默认  |

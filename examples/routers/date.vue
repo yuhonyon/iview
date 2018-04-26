@@ -47,11 +47,15 @@
     <div class="demonstration">值：{{ value12 }}</div>
     <DatePicker
       v-model="value12"
-      type="date"
+      type="datetime"
       placeholder="选择日期"
       format="yyyy 年 MM 月 dd 日"
-      value-format="timestamp">
+      value-format="number">
     </DatePicker>
+  </div>
+
+  <div>
+    <TimePicker></TimePicker>
   </div>
 </div>
 </template>
@@ -62,7 +66,7 @@
       return {
         value10: '',
         value11: '',
-        value12: '',
+        value12: 1453425345345,
         value6:''
       };
     }
