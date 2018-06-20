@@ -120,20 +120,21 @@
       <div
         class="el-picker-panel__footer"
         v-show="footerVisible && currentView === 'date'">
-        <el-button
+        <i-button
           size="small"
           type="text"
           class="el-picker-panel__link-btn"
+          :disabled="disabledDate&&disabledDate(new Date(),'time')"
           @click="changeToNow">
           {{ t('i.datepicker.now') }}
-        </el-button>
-        <el-button
+        </i-button>
+        <i-button
           plain
           size="small"
           class="el-picker-panel__link-btn"
           @click="confirm">
           {{ t('i.datepicker.confirm') }}
-        </el-button>
+        </i-button>
       </div>
     </div>
   </transition>
@@ -160,8 +161,8 @@
   } from '../util';
   import Clickoutside from '../../../../utils/clickoutside';
   import Locale from '../../../../mixins/locale';
-  import iInput from '../../../input';
-  import ElButton from '../../../button';
+  import IInput from '../../../input';
+  import IButton from '../../../button';
   import TimePicker from './time';
   import YearTable from '../basic/year-table';
   import MonthTable from '../basic/month-table';
@@ -235,7 +236,7 @@
         if (!value) {
           this.$emit('pick', value, ...args);
         } else {
-          this.$emit('pick', this.showTime ? clearMilliseconds(value) : clearTime(value), ...args);
+          this.$emit('pick', (this.showTime||this.defaultTime) ? clearMilliseconds(value) : clearTime(value), ...args);
         }
         this.userInputDate = null;
         this.userInputTime = null;
@@ -341,7 +342,7 @@
       changeToNow() {
         // NOTE: not a permanent solution
         //       consider disable "now" button in the future
-        if (!this.disabledDate || !this.disabledDate(new Date())) {
+        if (!this.disabledDate || !this.disabledDate(new Date(),'time')) {
           this.date = new Date();
           this.emit(this.date);
         }
@@ -451,7 +452,7 @@
     },
 
     components: {
-      TimePicker, YearTable, MonthTable, DateTable, iInput, ElButton
+      TimePicker, YearTable, MonthTable, DateTable, IInput, IButton
     },
 
     data() {

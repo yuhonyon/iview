@@ -335,6 +335,7 @@ export default {
     },
 
     handleFilterClick(event, column) {
+
       event.stopPropagation();
       const target = event.target;
       const cell = target.parentNode;
@@ -346,6 +347,11 @@ export default {
         filterPanel.showPopper = false;
         return;
       }
+
+      for(let i in this.filterPanels){
+        this.filterPanels[i].showPopper=false;
+      }
+
 
       if (!filterPanel) {
         filterPanel = new Vue(FilterPanel);

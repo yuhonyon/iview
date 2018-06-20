@@ -7,12 +7,14 @@
         label="日期"
         width="180">
       </Column>
-      <Column
+      <Column :filters="[{ text: '家', value: '家' }, { text: '公司', value: '公司' }]"
+
+      filter-placement="bottom-end"
         prop="name"
         label="姓名"
         width="180">
       </Column>
-      <Column
+      <Column column-key="aaaaa" 
         prop="address"
         label="地址">
       </Column>

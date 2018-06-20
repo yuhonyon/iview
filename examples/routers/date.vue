@@ -11,21 +11,22 @@
       start-placeholder="开始日期"
       end-placeholder="结束日期">
     </DatePicker>
+    <br>
     <DatePicker
       style="width:200px;"
       v-model="value10"
       :max-date="value11"
       default-time="12:12:00"
-      type="datetime"
+      type="date"
       placeholder="选择日期"
       format="yyyy 年 MM 月 dd 日 HH:mm:ss">
     </DatePicker>
     <DatePicker
       style="width:200px;"
       v-model="value11"
-      :max-date="1524153600000"
+      max-date="today"
 
-      type="datetime"
+      type="date"
       placeholder="选择日期"
       value-format="number"
       format="yyyy 年 MM 月 dd 日 HH:mm:ss">

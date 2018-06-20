@@ -788,46 +788,48 @@ export default {
           let minDate=this.minDate;
 
           function typeDate(time,type){
-            //if(type==='date'){
+            if(type==='time'){
+              time=new Date(time).getTime()
+            }else{
               time=new Date(time).setHours(0,0,0,0)
-            //}
+            }
 
             return time;
           }
 
-          if(maxDate||minDate){
-            this.picker.disabledDate=function(time,type){
-              let disable=false;
 
-              if(type==='date'){
+          this.picker.disabledDate=function(time,type){
+            let disable=false;
 
-              }
+            if(type==='date'){
 
-              if(maxDate&&!disable){
-                if(maxDate==='today'){
-                  maxDate=new Date().setHours(23,59,59,999)
-                }else if(maxDate instanceof Date){
-                  maxDate=maxDate.getTime()
-                }else if(typeof maxDate!=='number'){
-                  maxDate=new Date(maxDate).getTime()
-                }
-                disable=time.getTime()>typeDate(maxDate,type);
-              }
-
-              if(minDate&&!disable){
-                if(minDate==='today'){
-                  minDate=new Date().setHours(0,0,0,0)
-                }else if(minDate instanceof Date){
-                  minDate=minDate.getTime()
-                }else if(typeof minDate!=='number'){
-                  minDate=new Date(minDate).getTime()
-                }
-                disable=time.getTime()<typeDate(minDate,type);
-              }
-
-              return disable||options&&typeof options.disabledDate==='function'&&options.disabledDate(time)
             }
+
+            if(maxDate&&!disable){
+              if(maxDate==='today'){
+                maxDate=new Date().setHours(23,59,59,999)
+              }else if(maxDate instanceof Date){
+                maxDate=maxDate.getTime()
+              }else if(typeof maxDate!=='number'){
+                maxDate=new Date(maxDate).getTime()
+              }
+              disable=time.getTime()>typeDate(maxDate,type);
+            }
+
+            if(minDate&&!disable){
+              if(minDate==='today'){
+                minDate=new Date().setHours(0,0,0,0)
+              }else if(minDate instanceof Date){
+                minDate=minDate.getTime()
+              }else if(typeof minDate!=='number'){
+                minDate=new Date(minDate).getTime()
+              }
+              disable=time.getTime()<typeDate(minDate,type);
+            }
+
+            return disable||options&&typeof options.disabledDate==='function'&&options.disabledDate(time)
           }
+
 
 
 

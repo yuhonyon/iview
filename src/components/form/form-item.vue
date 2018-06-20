@@ -292,6 +292,12 @@
                         if(typeof rule.required==='function'){
                           rule.required=rule.required()
                         }
+                        if(typeof rule.min==='function'){
+                          rule.min=rule.min()
+                        }
+                        if(typeof rule.max==='function'){
+                          rule.max=rule.max()
+                        }
                         if (rule.required) {
                             this.isRequired = true;
                             return false;
