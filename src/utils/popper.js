@@ -27,7 +27,7 @@
 // Cross module loader
 // Supported: Node, AMD, Browser globals
 //
-;(function (root, factory) {
+(function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
         define(factory);
@@ -518,12 +518,12 @@
             var offsetParentRect = getOffsetRect(offsetParent);
 
 			// Thanks the fucking native API, `document.body.scrollTop` & `document.documentElement.scrollTop`
-			var getScrollTopValue = function (element) {
-				return element == document.body ? Math.max(document.documentElement.scrollTop, document.body.scrollTop) : element.scrollTop;
-			}
-			var getScrollLeftValue = function (element) {
-				return element == document.body ? Math.max(document.documentElement.scrollLeft, document.body.scrollLeft) : element.scrollLeft;
-			}
+            var getScrollTopValue = function (element) {
+                return element == document.body ? Math.max(document.documentElement.scrollTop, document.body.scrollTop) : element.scrollTop;
+            };
+            var getScrollLeftValue = function (element) {
+                return element == document.body ? Math.max(document.documentElement.scrollLeft, document.body.scrollLeft) : element.scrollLeft;
+            };
 
             // if the popper is fixed we don't have to substract scrolling from the boundaries
             var scrollTop = data.offsets.popper.position === 'fixed' ? 0 : getScrollTopValue(scrollParent);
@@ -1167,7 +1167,7 @@
         var rect = element.getBoundingClientRect();
 
         // whether the IE version is lower than 11
-        var isIE = navigator.userAgent.indexOf("MSIE") != -1;
+        var isIE = navigator.userAgent.indexOf('MSIE') != -1;
 
         // fix ie document bounding top always 0 bug
         var rectTop = isIE && element.tagName === 'HTML'

@@ -98,9 +98,9 @@
                 let rules = this.getRules();
                 if (rules.length) {
                     rules.every(rule => {
-                        if(typeof rule.required==='function'){
-                          rule.required=rule.required()
-                        }
+                        // if(typeof rule.required==='function'){
+                        //   rule.required=rule.required()
+                        // }
                         if (rule.required) {
                             this.isRequired = true;
                             return false;
@@ -170,7 +170,21 @@
                 const selfRules = this.rules;
 
                 formRules = formRules ? formRules[this.prop] : [];
-                return extend(true,[],selfRules || formRules || []);
+                let rules=extend(true,[],selfRules || formRules || []);
+                if (rules.length) {
+                    rules.forEach(rule => {
+                        if(typeof rule.required==='function'){
+                          rule.required=rule.required()
+                        }
+                        if(typeof rule.min==='function'){
+                          rule.min=rule.min()
+                        }
+                        if(typeof rule.max==='function'){
+                          rule.max=rule.max()
+                        }
+                    });
+                }
+                return rules;
             },
             getFilteredRule (trigger) {
                 const rules = this.getRules();
@@ -186,16 +200,16 @@
 
                 this.validateState = 'validating';
 
-                for(let rule of rules){
-                  if(typeof rule.required==='function'){
-                    rule.required=rule.required();
-                    if(rule.required){
-                      this.isRequired = true;
-                    }else{
-                      this.isRequired=false;
-                    }
-                  }
-                }
+                // for(let rule of rules){
+                //   if(typeof rule.required==='function'){
+                //     rule.required=rule.required();
+                //     if(rule.required){
+                //       this.isRequired = true;
+                //     }else{
+                //       this.isRequired=false;
+                //     }
+                //   }
+                // }
 
 
 
@@ -222,9 +236,9 @@
                 let rules = this.getRules();
                 if (rules.length) {
                     rules.every(rule => {
-                        if(typeof rule.required==='function'){
-                          rule.required=rule.required()
-                        }
+                        // if(typeof rule.required==='function'){
+                        //   rule.required=rule.required()
+                        // }
                         if (rule.required) {
                             this.isRequired = true;
                             return false;
@@ -289,15 +303,15 @@
 
                 if (rules.length) {
                     rules.every(rule => {
-                        if(typeof rule.required==='function'){
-                          rule.required=rule.required()
-                        }
-                        if(typeof rule.min==='function'){
-                          rule.min=rule.min()
-                        }
-                        if(typeof rule.max==='function'){
-                          rule.max=rule.max()
-                        }
+                        // if(typeof rule.required==='function'){
+                        //   rule.required=rule.required()
+                        // }
+                        // if(typeof rule.min==='function'){
+                        //   rule.min=rule.min()
+                        // }
+                        // if(typeof rule.max==='function'){
+                        //   rule.max=rule.max()
+                        // }
                         if (rule.required) {
                             this.isRequired = true;
                             return false;
